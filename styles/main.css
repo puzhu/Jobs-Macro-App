@@ -1,0 +1,20 @@
+body {
+  padding : 5px ;
+}
+
+/*Defining the chart areas*/
+#scatterControls{
+  height: 75px;
+  /*border: 1px dotted red;*/
+}
+#scatterChart{
+  height: 400px;
+  border: 1px dotted blue;
+}
+#scatterText{
+  height:475px;
+  /*border: 1px dotted green;*/
+}
+svg{
+  border: 1px dotted red;
+}
