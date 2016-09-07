@@ -68,7 +68,10 @@ function ready(error, data){
 }
 
 function draw(data){
-	var data = (calcVizData(data, 2001, 2014, "prodInd"))
+	var startYear = d3.min(data, function(d) {return d.year;})
+	var endYear = d3.max(data, function(d) {return d.year;})
+	console.log(startYear, endYear)
+	var data = (calcVizData(data, startYear, endYear, "prodInd"))
 	var incomeClass = ["L", "LM", "UM", "H", "Missing"]
 
 	/*
@@ -102,11 +105,13 @@ function draw(data){
 			.range(colorArray);
 
 
+
 	drawScatter(data)
 	/*
 	#################################################
 	SECTION 3.2: DRAW THE SCATTER PLOT
 	To-Dos: 1. Investigate why some of the dots are truncated
+					2. Investigate different variable formulations (yearly Y vs panel growth X-Var, yearly Y vs yearly X-Var)
 	#################################################
 	*/
 	function drawScatter(data) {
@@ -132,6 +137,43 @@ function draw(data){
 		scatterPlot.append('g')
 				.call(xScatterAxis)
 				.attr('transform', 'translate(0,'+ (scatterHeight) + ")")
+		//cal the regression line
+		drawRegressLine(data)
+	}
+	/*
+	#################################################
+	SECTION 3.3: DRAW THE REGRESSION LINE
+	To-Dos: 1. DONE		Figure out why the css class is not being applied to the line
+					2.
+	#################################################
+	*/
+
+	function drawRegressLine(data){
+		//Calling the d3 line function
+		var line = d3.line()
+			.x(function(d) { return xScatterScale(d.xVarRate); })
+			.y(function(d) { return yScatterScale(d.gdpRate); });
+
+		// Derive a linear regression using the simple stats library
+	  var regression = ss.linearRegression(data.map(function(d) {
+	    return [d.xVarRate, d.gdpRate];
+	  }));
+		//function that maps x values to y
+	  var regLineCreater = ss.linearRegressionLine(regression);
+		// Create a line based on the beginning and endpoints of the range
+	  var regLineData = xScatterScale.domain().map(function(x) {
+			return {
+	      xVarRate: x,
+	      gdpRate: regLineCreater(+x)
+	    };
+	  });
+
+		// regLine(regLineData)
+		scatterPlot.append("path")
+			.datum(regLineData)
+			.attr("class", "regLine")
+      .attr("d", line);
+
 	}
 
 
