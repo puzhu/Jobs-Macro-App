@@ -29,30 +29,37 @@ svg{
   font: 10px sans-serif;
 }
 
-
-.regLine {
+/*Style the regression lines*/
+.mainregLine {
   fill: none;
-  stroke: orange;
+  stroke: grey;
+  stroke-width: 2px;
+  stroke-dasharray: 5;
+}
+.tempregLine {
+  fill: none;
+  stroke: red;
   stroke-width: 1.5px;
+  stroke-dasharray: 2;
 }
 
 /*Scatter Plot CSS*/
 .scatterCircles{
-  stroke: black;
-  stroke-width: 0.5;
+  stroke-width: 0.75;
   -webkit-transition: fill-opacity 250ms linear;
-  fill-opacity: .2
-  /*opacity: 0;*/
+
+
 }
-
-/*.selected .scatterCircles {
-  fill-opacity: .2;
-  stroke: #f00;
-}*/
-
-/*.selecting .scatterCircles.selected {
-  stroke: #f00;
-}*/
+.selected{
+  stroke: red;
+  opacity: 0.7
+  /*fill: yellow;*/
+}
+.default {
+  stroke: black;
+  opacity: .1;
+  fill: black;
+}
 
 
 /*Brush CSS*/
@@ -79,4 +86,81 @@ svg{
 .selection {
   stroke-width: 0px;
   stroke: none;
+}
+
+
+
+
+
+
+
+/*Dropdown CSS*/
+select{
+  width: 250px;
+}
+label.incomeClassDropdown select {
+	padding: 10px 42px 10px 10px;
+	background: #f8f8f8;
+	color: #444;
+	border: 1px solid #aaa;
+	border-radius: 0;
+	display: inline-block;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	outline: none;
+}
+label.incomeClassDropdown select:-moz-focusring {
+	color: transparent;
+	text-shadow: 0 0 0 #444;
+}
+label.incomeClassDropdown select::-ms-expand {
+	display: none;
+}
+label.incomeClassDropdown:before {
+	content: '';
+	right: 5px;
+	top: 2px;
+	width: 30px;
+	height: 33px;
+	background: #f8f8f8;
+	position: absolute;
+	pointer-events: none;
+	display: block;
+}
+label.incomeClassDropdown { position: relative; }
+label.incomeClassDropdown:after {
+	content: '>';
+	font: 20px Consolas, monospace;
+	color: #444;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	right: 0px;
+	top: 5px;
+	/*border-bottom: 3px solid #aaa;*/
+	position: absolute;
+	pointer-events: none;
+	width: 35px;
+	padding: 0 0 5px 0;
+	text-indent: 15px;
+}
+@media screen\0 {
+	label.incomeClassDropdown:after {
+		width: 38px;
+		text-indent: 15px;
+		right: 0;
+	}
+}
+@media screen and (min--moz-device-pixel-ratio:0) {
+	label.incomeClassDropdown select { padding-right: 40px; }
+	label.incomeClassDropdown:before { right: 6px; }
+	label.incomeClassDropdown:after {
+		text-indent: 14px;
+		right: 6px;
+		top: -5px;
+		width: 36px;
+	}
 }
