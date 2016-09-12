@@ -4,15 +4,15 @@ body {
 
 /*Defining the chart areas*/
 #scatterControls{
-  height: 75px;
+  height: 100px;
   border: 1px dotted black;
 }
 #brushDiv{
-  height: 75px;
+  height: 100px;
   border: 1px dotted blue;
 }
 #incomeClassDiv{
-  height: 75px;
+  height: 100px;
   border: 1px dotted blue;
 }
 #scatterChart{
@@ -36,59 +36,47 @@ svg{
   stroke-width: 1.5px;
 }
 
+/*Scatter Plot CSS*/
+.scatterCircles{
+  stroke: black;
+  stroke-width: 0.5;
+  -webkit-transition: fill-opacity 250ms linear;
+  fill-opacity: .2
+  /*opacity: 0;*/
+}
+
+/*.selected .scatterCircles {
+  fill-opacity: .2;
+  stroke: #f00;
+}*/
+
+/*.selecting .scatterCircles.selected {
+  stroke: #f00;
+}*/
+
+
 /*Brush CSS*/
-.axis--grid .domain {
+.brushAxis--grid .domain {
   fill: #ddd;
   stroke: none;
 }
 
-.axis--x .domain,
-.axis--grid .tick line {
+.brushAxis--x .domain,
+.brushAxis--grid .tick line {
   stroke: #fff;
-}
-
-.axis--grid .tick--minor line {
   stroke-opacity: .5;
 }
 
-
-
-
-
-
-
-
-/*SLIDER CSS */
-/*.ticks {
-  font: 10px sans-serif;
+.brushAxis--y .domain, .tick line {
+  stroke: darkgrey;
+  stroke-opacity: 1;
 }
 
-.track,
-.track-inset,
-.track-overlay {
-  stroke-linecap: round;
+.handle--e, .handle--w{
+  fill: red;
+  opacity: 0.5;
 }
-
-.track {
-  stroke: #000;
-  stroke-opacity: 0.3;
-  stroke-width: 10px;
+.selection {
+  stroke-width: 0px;
+  stroke: none;
 }
-
-.track-inset {
-  stroke: #ddd;
-  stroke-width: 8px;
-}
-
-.track-overlay {
-  pointer-events: stroke;
-  stroke-width: 50px;
-  cursor: crosshair;
-}
-
-.handle {
-  fill: #fff;
-  stroke: #000;
-  stroke-opacity: 0.5;
-  stroke-width: 1.25px;
-}*/

@@ -12,7 +12,7 @@ AFG,Afghanistan,2011,L
 AFG,Afghanistan,2012,L
 AFG,Afghanistan,2013,L
 AFG,Afghanistan,2014,L
-ALB,Albania,1991,
+ALB,Albania,1991,Missing
 ALB,Albania,1992,LM
 ALB,Albania,1993,LM
 ALB,Albania,1994,LM
@@ -60,7 +60,7 @@ DZA,Algeria,2011,UM
 DZA,Algeria,2012,UM
 DZA,Algeria,2013,UM
 DZA,Algeria,2014,UM
-ADO,Andorra,1991,
+ADO,Andorra,1991,Missing
 ADO,Andorra,1992,H
 ADO,Andorra,1993,H
 ADO,Andorra,1994,H
@@ -155,8 +155,8 @@ ARG,Argentina,2011,UM
 ARG,Argentina,2012,UM
 ARG,Argentina,2013,UM
 ARG,Argentina,2014,UM
-ARM,Armenia,1991,
-ARM,Armenia,1992,
+ARM,Armenia,1991,Missing
+ARM,Armenia,1992,Missing
 ARM,Armenia,1993,LM
 ARM,Armenia,1994,LM
 ARM,Armenia,1995,L
@@ -228,8 +228,8 @@ AUT,Austria,2011,H
 AUT,Austria,2012,H
 AUT,Austria,2013,H
 AUT,Austria,2014,H
-AZE,Azerbaijan,1991,
-AZE,Azerbaijan,1992,
+AZE,Azerbaijan,1991,Missing
+AZE,Azerbaijan,1992,Missing
 AZE,Azerbaijan,1993,LM
 AZE,Azerbaijan,1994,LM
 AZE,Azerbaijan,1995,LM
@@ -348,8 +348,8 @@ BRB,Barbados,2011,H
 BRB,Barbados,2012,H
 BRB,Barbados,2013,H
 BRB,Barbados,2014,H
-BLR,Belarus,1991,
-BLR,Belarus,1992,
+BLR,Belarus,1991,Missing
+BLR,Belarus,1992,Missing
 BLR,Belarus,1993,UM
 BLR,Belarus,1994,UM
 BLR,Belarus,1995,UM
@@ -584,7 +584,7 @@ BRA,Brazil,2011,UM
 BRA,Brazil,2012,UM
 BRA,Brazil,2013,UM
 BRA,Brazil,2014,UM
-BRN,Brunei Darussalam,1991,
+BRN,Brunei Darussalam,1991,Missing
 BRN,Brunei Darussalam,1992,H
 BRN,Brunei Darussalam,1993,H
 BRN,Brunei Darussalam,1994,H
@@ -1034,7 +1034,7 @@ HRV,Croatia,2011,H
 HRV,Croatia,2012,H
 HRV,Croatia,2013,H
 HRV,Croatia,2014,H
-CUB,Cuba,1991,
+CUB,Cuba,1991,Missing
 CUB,Cuba,1992,LM
 CUB,Cuba,1993,LM
 CUB,Cuba,1994,LM
@@ -1081,9 +1081,9 @@ CYP,Cyprus,2011,H
 CYP,Cyprus,2012,H
 CYP,Cyprus,2013,H
 CYP,Cyprus,2014,H
-CZE,Czech Republic,1991,
-CZE,Czech Republic,1992,
-CZE,Czech Republic,1993,
+CZE,Czech Republic,1991,Missing
+CZE,Czech Republic,1992,Missing
+CZE,Czech Republic,1993,Missing
 CZE,Czech Republic,1994,LM
 CZE,Czech Republic,1995,LM
 CZE,Czech Republic,1996,UM
@@ -1129,7 +1129,7 @@ DNK,Denmark,2011,H
 DNK,Denmark,2012,H
 DNK,Denmark,2013,H
 DNK,Denmark,2014,H
-DJI,Djibouti,1991,
+DJI,Djibouti,1991,Missing
 DJI,Djibouti,1992,LM
 DJI,Djibouti,1993,LM
 DJI,Djibouti,1994,LM
@@ -1297,8 +1297,8 @@ GNQ,Equatorial Guinea,2011,H
 GNQ,Equatorial Guinea,2012,H
 GNQ,Equatorial Guinea,2013,H
 GNQ,Equatorial Guinea,2014,H
-ERI,Eritrea,1992,
-ERI,Eritrea,1993,
+ERI,Eritrea,1992,Missing
+ERI,Eritrea,1993,Missing
 ERI,Eritrea,1994,L
 ERI,Eritrea,1995,L
 ERI,Eritrea,1996,L
@@ -1482,8 +1482,8 @@ GMB,"Gambia, The",2011,L
 GMB,"Gambia, The",2012,L
 GMB,"Gambia, The",2013,L
 GMB,"Gambia, The",2014,L
-GEO,Georgia,1991,
-GEO,Georgia,1992,
+GEO,Georgia,1991,Missing
+GEO,Georgia,1992,Missing
 GEO,Georgia,1993,LM
 GEO,Georgia,1994,LM
 GEO,Georgia,1995,L
@@ -2075,8 +2075,8 @@ JOR,Jordan,2011,LM
 JOR,Jordan,2012,UM
 JOR,Jordan,2013,UM
 JOR,Jordan,2014,UM
-KAZ,Kazakhstan,1991,
-KAZ,Kazakhstan,1992,
+KAZ,Kazakhstan,1991,Missing
+KAZ,Kazakhstan,1992,Missing
 KAZ,Kazakhstan,1993,LM
 KAZ,Kazakhstan,1994,LM
 KAZ,Kazakhstan,1995,LM
@@ -2171,16 +2171,16 @@ KOR,"Korea, Rep.",2011,H
 KOR,"Korea, Rep.",2012,H
 KOR,"Korea, Rep.",2013,H
 KOR,"Korea, Rep.",2014,H
-KSV,Kosovo,2000,
-KSV,Kosovo,2001,
-KSV,Kosovo,2002,
-KSV,Kosovo,2003,
-KSV,Kosovo,2004,
-KSV,Kosovo,2005,
-KSV,Kosovo,2006,
-KSV,Kosovo,2007,
-KSV,Kosovo,2008,
-KSV,Kosovo,2009,
+KSV,Kosovo,2000,Missing
+KSV,Kosovo,2001,Missing
+KSV,Kosovo,2002,Missing
+KSV,Kosovo,2003,Missing
+KSV,Kosovo,2004,Missing
+KSV,Kosovo,2005,Missing
+KSV,Kosovo,2006,Missing
+KSV,Kosovo,2007,Missing
+KSV,Kosovo,2008,Missing
+KSV,Kosovo,2009,Missing
 KSV,Kosovo,2010,LM
 KSV,Kosovo,2011,LM
 KSV,Kosovo,2012,LM
@@ -2206,8 +2206,8 @@ KWT,Kuwait,2011,H
 KWT,Kuwait,2012,H
 KWT,Kuwait,2013,H
 KWT,Kuwait,2014,H
-KGZ,Kyrgyz Republic,1991,
-KGZ,Kyrgyz Republic,1992,
+KGZ,Kyrgyz Republic,1991,Missing
+KGZ,Kyrgyz Republic,1992,Missing
 KGZ,Kyrgyz Republic,1993,LM
 KGZ,Kyrgyz Republic,1994,LM
 KGZ,Kyrgyz Republic,1995,LM
@@ -2431,9 +2431,9 @@ MAC,"Macao SAR, China",2011,H
 MAC,"Macao SAR, China",2012,H
 MAC,"Macao SAR, China",2013,H
 MAC,"Macao SAR, China",2014,H
-MKD,"Macedonia, FYR",1991,
-MKD,"Macedonia, FYR",1992,
-MKD,"Macedonia, FYR",1993,
+MKD,"Macedonia, FYR",1991,Missing
+MKD,"Macedonia, FYR",1992,Missing
+MKD,"Macedonia, FYR",1993,Missing
 MKD,"Macedonia, FYR",1994,LM
 MKD,"Macedonia, FYR",1995,LM
 MKD,"Macedonia, FYR",1996,LM
@@ -2588,8 +2588,8 @@ MLT,Malta,2010,H
 MLT,Malta,2011,H
 MLT,Malta,2012,H
 MLT,Malta,2013,H
-MHL,Marshall Islands,1991,
-MHL,Marshall Islands,1992,
+MHL,Marshall Islands,1991,Missing
+MHL,Marshall Islands,1992,Missing
 MHL,Marshall Islands,1993,LM
 MHL,Marshall Islands,1994,LM
 MHL,Marshall Islands,1995,LM
@@ -2684,8 +2684,8 @@ MEX,Mexico,2011,UM
 MEX,Mexico,2012,UM
 MEX,Mexico,2013,UM
 MEX,Mexico,2014,UM
-FSM,"Micronesia, Fed. Sts.",1991,
-FSM,"Micronesia, Fed. Sts.",1992,
+FSM,"Micronesia, Fed. Sts.",1991,Missing
+FSM,"Micronesia, Fed. Sts.",1992,Missing
 FSM,"Micronesia, Fed. Sts.",1993,LM
 FSM,"Micronesia, Fed. Sts.",1994,LM
 FSM,"Micronesia, Fed. Sts.",1995,LM
@@ -2708,8 +2708,8 @@ FSM,"Micronesia, Fed. Sts.",2011,LM
 FSM,"Micronesia, Fed. Sts.",2012,LM
 FSM,"Micronesia, Fed. Sts.",2013,LM
 FSM,"Micronesia, Fed. Sts.",2014,LM
-MDA,Moldova,1991,
-MDA,Moldova,1992,
+MDA,Moldova,1991,Missing
+MDA,Moldova,1992,Missing
 MDA,Moldova,1993,LM
 MDA,Moldova,1994,LM
 MDA,Moldova,1995,LM
@@ -2757,17 +2757,17 @@ MNG,Mongolia,2011,LM
 MNG,Mongolia,2012,LM
 MNG,Mongolia,2013,LM
 MNG,Mongolia,2014,LM
-MNE,Montenegro,1997,
-MNE,Montenegro,1998,
-MNE,Montenegro,1999,
-MNE,Montenegro,2000,
-MNE,Montenegro,2001,
-MNE,Montenegro,2002,
-MNE,Montenegro,2003,
-MNE,Montenegro,2004,
-MNE,Montenegro,2005,
-MNE,Montenegro,2006,
-MNE,Montenegro,2007,
+MNE,Montenegro,1997,Missing
+MNE,Montenegro,1998,Missing
+MNE,Montenegro,1999,Missing
+MNE,Montenegro,2000,Missing
+MNE,Montenegro,2001,Missing
+MNE,Montenegro,2002,Missing
+MNE,Montenegro,2003,Missing
+MNE,Montenegro,2004,Missing
+MNE,Montenegro,2005,Missing
+MNE,Montenegro,2006,Missing
+MNE,Montenegro,2007,Missing
 MNE,Montenegro,2008,UM
 MNE,Montenegro,2009,UM
 MNE,Montenegro,2010,UM
@@ -3063,13 +3063,13 @@ PAK,Pakistan,2011,LM
 PAK,Pakistan,2012,LM
 PAK,Pakistan,2013,LM
 PAK,Pakistan,2014,LM
-PLW,Palau,1991,
-PLW,Palau,1992,
-PLW,Palau,1993,
-PLW,Palau,1994,
-PLW,Palau,1995,
-PLW,Palau,1996,
-PLW,Palau,1997,
+PLW,Palau,1991,Missing
+PLW,Palau,1992,Missing
+PLW,Palau,1993,Missing
+PLW,Palau,1994,Missing
+PLW,Palau,1995,Missing
+PLW,Palau,1996,Missing
+PLW,Palau,1997,Missing
 PLW,Palau,1998,UM
 PLW,Palau,1999,UM
 PLW,Palau,2000,UM
@@ -3317,8 +3317,8 @@ ROM,Romania,2011,UM
 ROM,Romania,2012,UM
 ROM,Romania,2013,UM
 ROM,Romania,2014,UM
-RUS,Russian Federation,1991,
-RUS,Russian Federation,1992,
+RUS,Russian Federation,1991,Missing
+RUS,Russian Federation,1992,Missing
 RUS,Russian Federation,1993,UM
 RUS,Russian Federation,1994,LM
 RUS,Russian Federation,1995,LM
@@ -3452,19 +3452,19 @@ SEN,Senegal,2011,LM
 SEN,Senegal,2012,LM
 SEN,Senegal,2013,LM
 SEN,Senegal,2014,LM
-SRB,Serbia,1995,
-SRB,Serbia,1996,
-SRB,Serbia,1997,
-SRB,Serbia,1998,
-SRB,Serbia,1999,
-SRB,Serbia,2000,
-SRB,Serbia,2001,
-SRB,Serbia,2002,
-SRB,Serbia,2003,
-SRB,Serbia,2004,
-SRB,Serbia,2005,
-SRB,Serbia,2006,
-SRB,Serbia,2007,
+SRB,Serbia,1995,Missing
+SRB,Serbia,1996,Missing
+SRB,Serbia,1997,Missing
+SRB,Serbia,1998,Missing
+SRB,Serbia,1999,Missing
+SRB,Serbia,2000,Missing
+SRB,Serbia,2001,Missing
+SRB,Serbia,2002,Missing
+SRB,Serbia,2003,Missing
+SRB,Serbia,2004,Missing
+SRB,Serbia,2005,Missing
+SRB,Serbia,2006,Missing
+SRB,Serbia,2007,Missing
 SRB,Serbia,2008,UM
 SRB,Serbia,2009,UM
 SRB,Serbia,2010,UM
@@ -3544,8 +3544,8 @@ SGP,Singapore,2011,H
 SGP,Singapore,2012,H
 SGP,Singapore,2013,H
 SGP,Singapore,2014,H
-SVK,Slovak Republic,1992,
-SVK,Slovak Republic,1993,
+SVK,Slovak Republic,1992,Missing
+SVK,Slovak Republic,1993,Missing
 SVK,Slovak Republic,1994,LM
 SVK,Slovak Republic,1995,LM
 SVK,Slovak Republic,1996,LM
@@ -3635,11 +3635,11 @@ ZAF,South Africa,2011,UM
 ZAF,South Africa,2012,UM
 ZAF,South Africa,2013,UM
 ZAF,South Africa,2014,UM
-SSD,South Sudan,2008,
-SSD,South Sudan,2009,
-SSD,South Sudan,2010,
-SSD,South Sudan,2011,
-SSD,South Sudan,2012,
+SSD,South Sudan,2008,Missing
+SSD,South Sudan,2009,Missing
+SSD,South Sudan,2010,Missing
+SSD,South Sudan,2011,Missing
+SSD,South Sudan,2012,Missing
 SSD,South Sudan,2013,LM
 SSD,South Sudan,2014,L
 ESP,Spain,1991,H
@@ -3882,8 +3882,8 @@ CHE,Switzerland,2011,H
 CHE,Switzerland,2012,H
 CHE,Switzerland,2013,H
 CHE,Switzerland,2014,H
-TJK,Tajikistan,1991,
-TJK,Tajikistan,1992,
+TJK,Tajikistan,1991,Missing
+TJK,Tajikistan,1992,Missing
 TJK,Tajikistan,1993,LM
 TJK,Tajikistan,1994,L
 TJK,Tajikistan,1995,L
@@ -3954,10 +3954,10 @@ THA,Thailand,2011,LM
 THA,Thailand,2012,UM
 THA,Thailand,2013,UM
 THA,Thailand,2014,UM
-TMP,Timor-Leste,1999,
-TMP,Timor-Leste,2000,
-TMP,Timor-Leste,2001,
-TMP,Timor-Leste,2002,
+TMP,Timor-Leste,1999,Missing
+TMP,Timor-Leste,2000,Missing
+TMP,Timor-Leste,2001,Missing
+TMP,Timor-Leste,2002,Missing
 TMP,Timor-Leste,2003,L
 TMP,Timor-Leste,2004,L
 TMP,Timor-Leste,2005,L
@@ -4090,8 +4090,8 @@ TUR,Turkey,2011,UM
 TUR,Turkey,2012,UM
 TUR,Turkey,2013,UM
 TUR,Turkey,2014,UM
-TKM,Turkmenistan,1991,
-TKM,Turkmenistan,1992,
+TKM,Turkmenistan,1991,Missing
+TKM,Turkmenistan,1992,Missing
 TKM,Turkmenistan,1993,LM
 TKM,Turkmenistan,1994,LM
 TKM,Turkmenistan,1995,LM
@@ -4114,26 +4114,26 @@ TKM,Turkmenistan,2011,LM
 TKM,Turkmenistan,2012,LM
 TKM,Turkmenistan,2013,UM
 TKM,Turkmenistan,2014,UM
-TUV,Tuvalu,1991,
-TUV,Tuvalu,1992,
-TUV,Tuvalu,1993,
-TUV,Tuvalu,1994,
-TUV,Tuvalu,1995,
-TUV,Tuvalu,1996,
-TUV,Tuvalu,1997,
-TUV,Tuvalu,1998,
-TUV,Tuvalu,1999,
-TUV,Tuvalu,2000,
-TUV,Tuvalu,2001,
-TUV,Tuvalu,2002,
-TUV,Tuvalu,2003,
-TUV,Tuvalu,2004,
-TUV,Tuvalu,2005,
-TUV,Tuvalu,2006,
-TUV,Tuvalu,2007,
-TUV,Tuvalu,2008,
-TUV,Tuvalu,2009,
-TUV,Tuvalu,2010,
+TUV,Tuvalu,1991,Missing
+TUV,Tuvalu,1992,Missing
+TUV,Tuvalu,1993,Missing
+TUV,Tuvalu,1994,Missing
+TUV,Tuvalu,1995,Missing
+TUV,Tuvalu,1996,Missing
+TUV,Tuvalu,1997,Missing
+TUV,Tuvalu,1998,Missing
+TUV,Tuvalu,1999,Missing
+TUV,Tuvalu,2000,Missing
+TUV,Tuvalu,2001,Missing
+TUV,Tuvalu,2002,Missing
+TUV,Tuvalu,2003,Missing
+TUV,Tuvalu,2004,Missing
+TUV,Tuvalu,2005,Missing
+TUV,Tuvalu,2006,Missing
+TUV,Tuvalu,2007,Missing
+TUV,Tuvalu,2008,Missing
+TUV,Tuvalu,2009,Missing
+TUV,Tuvalu,2010,Missing
 TUV,Tuvalu,2011,LM
 TUV,Tuvalu,2012,LM
 TUV,Tuvalu,2013,UM
@@ -4162,8 +4162,8 @@ UGA,Uganda,2011,L
 UGA,Uganda,2012,L
 UGA,Uganda,2013,L
 UGA,Uganda,2014,L
-UKR,Ukraine,1991,
-UKR,Ukraine,1992,
+UKR,Ukraine,1991,Missing
+UKR,Ukraine,1992,Missing
 UKR,Ukraine,1993,LM
 UKR,Ukraine,1994,LM
 UKR,Ukraine,1995,LM
@@ -4282,8 +4282,8 @@ URY,Uruguay,2011,UM
 URY,Uruguay,2012,UM
 URY,Uruguay,2013,UM
 URY,Uruguay,2014,H
-UZB,Uzbekistan,1991,
-UZB,Uzbekistan,1992,
+UZB,Uzbekistan,1991,Missing
+UZB,Uzbekistan,1992,Missing
 UZB,Uzbekistan,1993,LM
 UZB,Uzbekistan,1994,LM
 UZB,Uzbekistan,1995,LM
@@ -4378,8 +4378,8 @@ VNM,Vietnam,2011,LM
 VNM,Vietnam,2012,LM
 VNM,Vietnam,2013,LM
 VNM,Vietnam,2014,LM
-WBG,West Bank and Gaza,1994,
-WBG,West Bank and Gaza,1995,
+WBG,West Bank and Gaza,1994,Missing
+WBG,West Bank and Gaza,1995,Missing
 WBG,West Bank and Gaza,1996,LM
 WBG,West Bank and Gaza,1997,LM
 WBG,West Bank and Gaza,1998,LM
