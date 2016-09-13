@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/tool-tip-style.css">
+
+
 </head>
 
 <body>
@@ -15,19 +18,31 @@
       <div class="row">
         <div class="col-lg-8">
           <div class='row' id='scatterControls'>
-            <div class="col-lg-8" id='brushDiv'>
+            <div class="col-lg-9" id='brushDiv'>
 
             </div>
-            <div class="col-lg-4" id='incomeClassDiv'>
-              <label class='incomeClassDropdown'>
-                <select id="incomeDropdown">
-                  <option>All Countries</option>
-                  <option>Low Income</option>
-                  <option>Lower Middle Income</option>
-                  <option>Upper Middle Income</option>
-                  <option>High Income</option>
-                </select>
-            </label>
+            <div class="col-lg-3" id='incomeClassDiv'>
+              <div class="row text-center">
+                <label class='incomeClassDropdown'>
+                  <select id="incomeDropdown">
+                    <option>All Countries</option>
+                    <option>Low Income</option>
+                    <option>Lower Middle Income</option>
+                    <option>Upper Middle Income</option>
+                    <option>High Income</option>
+                  </select>
+              </label>
+              </div>
+              <div class="row text-center">
+                <p id='outlierHeading'>
+                  Remove Outliers
+                </p>
+                <label class="switch">
+                  <input type="checkbox" id="outlierCheck">
+                  <div class="slider round"></div>
+                </label>
+              </div>
+
             </div>
           </div>
           <div class='row' id='scatterChart'>
@@ -48,6 +63,7 @@
   <script src="libs/jquery-2.2.4.min.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="libs/d3-tool-tip.js"></script>
 	<script src="scripts/main.js"></script>
 </body>
 </html>

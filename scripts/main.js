@@ -5,19 +5,19 @@ To-Dos: 1. calcVizData -> figure out how to use a string input to extract values
 #################################################
 */
 //Data processing functions
-function processAllData(data) {
-    var array = {
-        countryCode: data.countrycode,
-        country: data.country,
-        year: deString(data.year),
-        incomeClass: data.incomeClass,
-        gdp: deString(data.gdppc),
-        prodAg: deString(data.prodag),
-        prodInd: deString(data.prodind),
-        prodServ: deString(data.prodserv)
-    }
-    return array
-}
+// function processAllData(data) {
+//     var array = {
+//         countryCode: data.countrycode,
+//         country: data.country,
+//         year: deString(data.year),
+//         incomeClass: data.incomeClass,
+//         gdp: deString(data.gdppc),
+//         prodAg: deString(data.prodag),
+//         prodInd: deString(data.prodind),
+//         prodServ: deString(data.prodserv)
+//     }
+//     return array
+// }
 
 function processAllGrData(data) {
     var array = {
@@ -43,33 +43,33 @@ function processWorldData(data) {
 }
 
 //Data manipulation functions
-function calcVizAllData(data, startYear, endYear, depVar) {
-    var uniqueCountries = unique(data.map(function(d) {
-        return d.country;
-    })).sort()
-    var tempData = data.filter(function(d) {
-        return (d.year === startYear || d.year === endYear) && !isNaN(d.gdp) && !isNaN(d[depVar]);
-    })
-    var array = [];
-
-    uniqueCountries.forEach(function(d) {
-        var temp = tempData.filter(function(e) {
-            return e.country === d;
-        })
-        if (temp.length === 2) {
-            var tempGdpRate = Math.log(temp[1]['gdp'] / temp[0]['gdp'])
-            var tempXRate = Math.log(temp[1][depVar] / temp[0][depVar])
-            array.push({
-                country: d,
-                year: d.year,
-                incomeClass: temp[1].incomeClass,
-                gdpRate: tempGdpRate,
-                xVarRate: tempXRate
-            })
-        }
-    })
-    return array
-}
+// function calcVizAllData(data, startYear, endYear, depVar) {
+//     var uniqueCountries = unique(data.map(function(d) {
+//         return d.country;
+//     })).sort()
+//     var tempData = data.filter(function(d) {
+//         return (d.year === startYear || d.year === endYear) && !isNaN(d.gdp) && !isNaN(d[depVar]);
+//     })
+//     var array = [];
+//
+//     uniqueCountries.forEach(function(d) {
+//         var temp = tempData.filter(function(e) {
+//             return e.country === d;
+//         })
+//         if (temp.length === 2) {
+//             var tempGdpRate = Math.log(temp[1]['gdp'] / temp[0]['gdp'])
+//             var tempXRate = Math.log(temp[1][depVar] / temp[0][depVar])
+//             array.push({
+//                 country: d,
+//                 year: d.year,
+//                 incomeClass: temp[1].incomeClass,
+//                 gdpRate: tempGdpRate,
+//                 xVarRate: tempXRate
+//             })
+//         }
+//     })
+//     return array
+// }
 
 function calcVizAllGrData(data, startYear, endYear, depVar){
 	var array = [];
@@ -86,6 +86,14 @@ function calcVizAllGrData(data, startYear, endYear, depVar){
 		})
 	})
 	return array;
+}
+
+//Remove outliers
+function removeOutliers(data) {
+  var yDeviation = d3.deviation(data, function(d) {return d.gdpRate}) * 2.5;
+  var xDeviation = d3.deviation(data, function(d) {return d.xVarRate}) * 2.5;
+  console.log(yDeviation, xDeviation)
+  return data.filter(function(d) {return d.gdpRate < yDeviation && d.gdpRate > -yDeviation && d.xVarRate < xDeviation && d.xVarRate > -xDeviation})
 }
 
 //Convert strings to numbers
@@ -108,6 +116,25 @@ var unique = function(xs) {
     })
 }
 
+// Round to decimals
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
+// Extending D3 to move elements to the front/background
+d3.selection.prototype.moveToFront = function() {
+    return this.each(function() {
+        this.parentNode.appendChild(this);
+    });
+};
+d3.selection.prototype.moveToBack = function() {
+    return this.each(function() {
+        var firstChild = this.parentNode.firstChild;
+        if (firstChild) {
+            this.parentNode.insertBefore(this, firstChild);
+        }
+    });
+};
 // Creating global variables
 var incomeClassKey = {
   'Low Income': "L",
@@ -148,8 +175,8 @@ function draw(data, worldData) {
     //Creating the margin convention(source: http://bl.ocks.org/mbostock/3019563)
     var scatterOuterWidth = d3.select('#scatterChart').node().clientWidth,
         scatterOuterHeight = d3.select('#scatterChart').node().clientHeight,
-    		scatterMargin = {top: 2, right: 1, bottom: 20, left: 30},
-        scatterPadding = {top: 2, right: 1, bottom: 20, left: 10},
+    		scatterMargin = {top: 2, right: 5, bottom: 40, left: 100},
+        scatterPadding = {top: 2, right: 5, bottom: 5, left: 5},
         scatterInnerWidth = scatterOuterWidth - scatterMargin.left - scatterMargin.right,
         scatterInnerHeight = scatterOuterHeight - scatterMargin.top - scatterMargin.bottom,
         scatterWidth = scatterInnerWidth - scatterPadding.left - scatterPadding.right,
@@ -166,13 +193,23 @@ function draw(data, worldData) {
         .range([0, scatterWidth]);
     var yScatterScale = d3.scaleLinear()
         .range([scatterHeight, 0]);
-
+    // Creating the tool tip for the scatter PLOT
+    //Create the map tool tip
+    var scatterTip = d3.tip()
+      .attr('class', 'd3-tip')
+  		.attr('id', 'popUp')
+      .offset([10, 5])
+        .direction('e')
+        .html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+          "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+            "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.gdpRate, 1) + "</span>" + "<br>" +
+              "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
     /*
     #################################################
     SECTION 3.2: DRAW THE SCATTER PLOT
     To-Dos: 1. Investigate why some of the dots are truncated
     					2. Investigate different variable formulations (yearly Y vs panel growth X-Var, yearly Y vs yearly X-Var)
-    					3. X axis should always intersect at y=0
+    					3. DONE      X axis should always intersect at y=0
     #################################################
     */
     function drawScatter(data) {
@@ -204,16 +241,37 @@ function draw(data, worldData) {
             })
 						.attr('class', 'scatterCircles')
             .classed('default', true)
+            .on('mouseover', mouseoverDots)
+            .on('mouseout', mouseoutDots)
+            .call(scatterTip);
 
-
+          // Draw the axis
         scatterPlot.append('g')
             .call(yScatterAxis)
+            .attr('class', 'x--scatterAxis');
         scatterPlot.append('g')
             .call(xScatterAxis)
             .attr('transform', 'translate(0,' + yScatterScale(0) + ")")
+            .attr('class', 'y--scatterAxis');
+
+
+      // Adding a text element with no. of observations
+      addObs(data);
 
 
 
+    }
+    // Function to append text to scatter plot (kep outside the block so that it is accessible to the redraw functions)
+    function addObs(data){
+      var nObsText = "No of obs: " + data.length;
+      scatterPlot.append('g')
+            .append('text')
+            .attr('x', scatterWidth - 90)
+            .attr('y', yScatterScale(0))
+            .attr('dy', -10)
+            .text(nObsText)
+            .attr('class', 'obsText')
+            .moveToFront()
     }
     /*
     #################################################
@@ -257,9 +315,8 @@ function draw(data, worldData) {
             .attr("d", line);
 
     }
-    // Call the scatter plot
+    // Draw the default chart
     drawScatter(data)
-    //call the regression line
     drawRegressLine(data, 'main')
     /*
     #################################################
@@ -278,7 +335,7 @@ function draw(data, worldData) {
         //Create the Brush canvas margin system
     var brushOuterWidth = d3.select('#brushDiv').node().clientWidth,
         brushOuterHeight = d3.select('#brushDiv').node().clientHeight,
-				brushMargin = {top: 2, right: 10, bottom: 20, left: 40},
+				brushMargin = {top: 2, right: 10, bottom: 20, left: 100},
         brushPadding = {top: 2, right: 2, bottom: 2, left: 0},
         brushInnerWidth = brushOuterWidth - brushMargin.left - brushMargin.right,
         brushInnerHeight = brushOuterHeight - brushMargin.top - brushMargin.bottom,
@@ -313,15 +370,15 @@ function draw(data, worldData) {
 				.on("end", brushended);
 
 		//Append a grid
-    brushSvg.append("g")
-        .attr("class", "brushAxis brushAxis--grid")
-        .attr("transform", "translate(0," + brushHeight + ")")
-        .call(d3.axisBottom(xBrushScale)
-            .ticks(d3.timeYear) //sets ticks at one year intervals for the grid
-            .tickSize(-brushHeight) //the ticks cover the entire grid
-            .tickFormat(function() {
-                return null;
-            })) //set to null to suppress tick text
+    // brushSvg.append("g")
+    //     .attr("class", "brushAxis brushAxis--grid")
+    //     .attr("transform", "translate(0," + brushHeight + ")")
+    //     .call(d3.axisBottom(xBrushScale)
+    //         .ticks(d3.timeYear) //sets ticks at one year intervals for the grid
+    //         .tickSize(-brushHeight) //the ticks cover the entire grid
+    //         .tickFormat(function() {
+    //             return null;
+    //         })) //set to null to suppress tick text
 
     //Append the X and Y axis to the brush svg
     brushSvg.append("g")
@@ -355,16 +412,27 @@ function draw(data, worldData) {
         .attr("class", "brush")
         .call(brush);
 
-    // Creating date markers outside the brushend function block so that they are available for dropdown events
+    /*
+    #################################################
+    SECTION 3.5: EVENT LISTENERS FOR BRUSH, DROPDOWN, SCATTER PlOT AND OUTLIER BUTTON
+    To-Dos: 1.
+              2.
+    #################################################
+    */
+    // Creating date and dropdown defaults for reference within funciton blocks
+    var currentIncome = "All Countries";
     var domain1 =[new Date(startYear, 1, 1), new Date(endYear, 1, 1)]
+
+    // Brush event listener (listens for end of brushing and implements a smooth transition)
     function brushended() {
         if (!d3.event.sourceEvent) return; // Only transition after input.
 
         // Keep default styling if selection is empty i.e no brush
         if (!d3.event.selection){
-          d3.select('.tempregLine').remove() //remove the previous temp line
-          d3.selectAll('.scatterCircles').classed('selected', false).classed('default', true);
+          //
+          // d3.selectAll('.scatterCircles').classed('selected', false).classed('default', true);
           domain1 = [new Date(startYear, 1, 1), new Date(endYear, 1, 1)]; //reset the domain variables
+          redraw(data, currentIncome, domain1)
           return; // Ignore empty selections i.e exit
         }
         var domain0 = d3.event.selection.map(xBrushScale.invert)//invert the scale to get the domain value
@@ -382,46 +450,114 @@ function draw(data, worldData) {
             .call(brush.move, domain1.map(xBrushScale));
 
         //call the redraw function
-        redraw(currentIncome, domain1)
+        redraw(data, currentIncome, domain1)
 
     }
 
-    /*
-    #################################################
-    SECTION 3.5: RESPOND TO CHANGE IN COUNTRY CATEGORY
-    To-Dos: 1.
-              2.
-    #################################################
-    */
-    // Creating the current indicator so that it is available for brush events
-    var currentIncome = "All Countries";
-    d3.select('#incomeDropdown').on('change.line', function(d) {
+    // Event listener for the dropdown
+    d3.select('#incomeDropdown').on('change.line', function() {
       var sel = document.getElementById('incomeDropdown'); //selecting the default based on current input
   		currentIncome = sel.options[sel.selectedIndex].value //getting the value of the indicator
-      redraw(currentIncome, domain1)
+      redraw(data, currentIncome, domain1)
     });
 
-    function redraw(currentIncome, domain1){
-      if(currentIncome === "All Countries"){
-        // Hide or show scatterCircles based on the start and end year of the brush
-        d3.selectAll('.scatterCircles').filter(function(d) { return d.year >= domain1[0].getFullYear() && d.year <= domain1[1].getFullYear()}).classed('default', false).classed('selected', true).attr('fill', 'lightblue');
-        d3.selectAll('.scatterCircles').filter(function(d) { return d.year < domain1[0].getFullYear() || d.year > domain1[1].getFullYear()}).classed('selected', false).classed('default', true);
+    var fillColour = 'rgb(33, 150, 200)'
 
-        // Draw a temparory regression line for each brush end event
-        var tempRegData = data.filter(function(d) {return d.year >= domain1[0].getFullYear() && d.year <= domain1[1].getFullYear()})
-        d3.select('.tempregLine').remove() //remove the previous temp line
-        drawRegressLine(tempRegData, 'temp') //draw new temp line
+    //Mouseover function for scatter PlOT
+    function mouseoverDots(d){
+      d3.selectAll('.scatterCircles').filter(function(e) {return e.country === d.country}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+      d3.selectAll('.scatterCircles').filter(function(e) {return e.country != d.country}).classed('selected', false).classed('default', true).moveToBack()
+      scatterTip.show(d)
+    }
+    // Mouseout function fo scatter plot
+    function mouseoutDots(d){
+      redraw(data, currentIncome, domain1)
+      scatterTip.hide(d)
+    }
+
+    // Event listener for outlier button
+    var tempData = removeOutliers(data); //keeping this outside since it needs to be computed only once
+    d3.select('#outlierCheck').on('change', function(){
+      if($('input[type="checkbox"]').prop('checked')) { //checkbox is checked then redraw
+        //Remove existing plot elements
+        d3.selectAll('.scatterCircles').remove();
+        d3.select('.tempregLine').remove();
+        d3.select('.mainregLine').remove();
+        d3.select('.obsText').remove();
+        d3.select('.x--scatterAxis').remove();
+        d3.select('.y--scatterAxis').remove();
+
+        // Draw the default no outlier charts with new data
+        drawScatter(tempData)
+        drawRegressLine(tempData, 'main')
+
+        //Draw the current brush and dropdown selection with new data
+        redraw(tempData, currentIncome, domain1);
+
+      } else{
+        //Remove existing scatter plot elements
+        d3.selectAll('.scatterCircles').remove();
+        d3.select('.tempregLine').remove();
+        d3.select('.mainregLine').remove();
+        d3.select('.obsText').remove();
+        d3.select('.x--scatterAxis').remove();
+        d3.select('.y--scatterAxis').remove();
+
+        // Draw the default no outlier charts with new data
+        drawScatter(data)
+        drawRegressLine(data, 'main')
+
+        //Draw the current brush and dropdown selection with new data
+        redraw(data, currentIncome, domain1);
+      }
+    })
+
+    /*
+    #################################################
+    SECTION 3.5: THE REDRAW FUNCTION FOR SCATTER FOR THE BRUSH AND DROPDOWN EVENTS
+    To-Dos: 1. Investigate why the fill attribute cannot be modified through css class
+              2. Find the ideal 'selected' fill color
+    #################################################
+    */
+
+    function redraw(data, currentIncome, domain1){
+      if(currentIncome === "All Countries"){ //checking if default view should be applied
+        if(domain1[0].getFullYear() === startYear && domain1[1].getFullYear() === endYear){
+          // set to default view
+          d3.select('.tempregLine').remove() //remove the previous temp line
+          d3.selectAll('.scatterCircles').classed('selected', false).classed('default', true);
+
+          //Updating the nObs text
+          d3.select('.obsText').remove()
+          addObs(data);
+        } else {
+          // Hide or show scatterCircles based on the start and end year of the brush
+          d3.selectAll('.scatterCircles').filter(function(d) { return d.year >= domain1[0].getFullYear() && d.year <= domain1[1].getFullYear()}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront();
+          d3.selectAll('.scatterCircles').filter(function(d) { return d.year < domain1[0].getFullYear() || d.year > domain1[1].getFullYear()}).classed('selected', false).classed('default', true).moveToBack();
+
+          // Draw a temparory regression line for each brush end event
+          var tempRegData = data.filter(function(d) {return d.year >= domain1[0].getFullYear() && d.year <= domain1[1].getFullYear()})
+          d3.select('.tempregLine').remove() //remove the previous temp line
+          drawRegressLine(tempRegData, 'temp') //draw new temp line
+
+          //Updating the nObs text
+          d3.select('.obsText').remove()
+          addObs(tempRegData);
+        }
+
       } else{
         // Hide or show scatterCircles based on the start and end year of the brush
-        d3.selectAll('.scatterCircles').filter(function(d) { return d.year >= domain1[0].getFullYear() && d.year <= domain1[1].getFullYear() && d.incomeClass === incomeClassKey[currentIncome]}).classed('default', false).classed('selected', true).attr('fill', 'lightblue')
-        d3.selectAll('.scatterCircles').filter(function(d) { return d.year < domain1[0].getFullYear() || d.year > domain1[1].getFullYear() || d.incomeClass != incomeClassKey[currentIncome]} ).classed('selected', false).classed('default', true);
+        d3.selectAll('.scatterCircles').filter(function(d) { return d.year >= domain1[0].getFullYear() && d.year <= domain1[1].getFullYear() && d.incomeClass === incomeClassKey[currentIncome]}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+        d3.selectAll('.scatterCircles').filter(function(d) { return d.year < domain1[0].getFullYear() || d.year > domain1[1].getFullYear() || d.incomeClass != incomeClassKey[currentIncome]} ).classed('selected', false).classed('default', true).moveToBack();
 
         // Draw a temparory regression line for each brush end event
         var tempRegData = data.filter(function(d) {return d.year >= domain1[0].getFullYear() && d.year <= domain1[1].getFullYear() && d.incomeClass != incomeClassKey[currentIncome]})
         d3.select('.tempregLine').remove() //remove the previous temp line
         drawRegressLine(tempRegData, 'temp') //draw new temp line
+
+        //Updating the nObs text
+        d3.select('.obsText').remove()
+        addObs(tempRegData);
       }
     }
-
-
 }
