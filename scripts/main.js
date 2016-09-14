@@ -448,6 +448,7 @@ function draw(dataAll, worldData) {
     // Creating date and dropdown defaults for reference within funciton blocks
     var currentIncome = "All Countries";
     var domain1 =[new Date(startYear, 1, 1), new Date(endYear, 1, 1)]
+    var tempData;
 
     // Brush event listener (listens for end of brushing and implements a smooth transition)
     function brushended() {
@@ -458,7 +459,7 @@ function draw(dataAll, worldData) {
           //
           // d3.selectAll('.scatterCircles').classed('selected', false).classed('default', true);
           domain1 = [new Date(startYear, 1, 1), new Date(endYear, 1, 1)]; //reset the domain variables
-          redraw(data, currentIncome, domain1)
+          scatterHandler(data, currentIncome, domain1)
           return; // Ignore empty selections i.e exit
         }
         var domain0 = d3.event.selection.map(xBrushScale.invert)//invert the scale to get the domain value
@@ -476,14 +477,19 @@ function draw(dataAll, worldData) {
             .call(brush.move, domain1.map(xBrushScale));
 
         //call the redraw function
-        redraw(data, currentIncome, domain1)
+        scatterHandler(data, currentIncome, domain1)
     }
 
     // Event listener for the dropdown
     d3.select('#incomeDropdown').on('change.line', function() {
       var sel = document.getElementById('incomeDropdown'); //selecting the default based on current input
   		currentIncome = sel.options[sel.selectedIndex].value //getting the value of the indicator
-      redraw(data, currentIncome, domain1)
+      if($('input[type="checkbox"]').prop('checked')){
+        scatterHandler(tempData, currentIncome, domain1)
+      } else{
+        scatterHandler(data, currentIncome, domain1)
+      }
+
     });
 
     // Event listener for x Axis dropdown
@@ -498,6 +504,7 @@ function draw(dataAll, worldData) {
 
       // Reset the country dropdown
       $('#incomeDropdown option').prop('selected', function() {return this.defaultSelected;})
+
       //Remove existing plot elements
       d3.selectAll('.scatterCircles').remove();
       d3.select('.tempregLine').remove();
@@ -531,12 +538,12 @@ function draw(dataAll, worldData) {
     }
     // Mouseout function fo scatter plot
     function mouseoutDots(d){
-      redraw(data, currentIncome, domain1)
+      scatterHandler(data, currentIncome, domain1)
       scatterTip.hide(d)
     }
 
     // Event listener for outlier button
-    var tempData = removeOutliers(data); //keeping this outside since it needs to be computed only once
+    tempData = removeOutliers(data); //keeping this outside since it needs to be computed only once
     d3.select('#outlierCheck').on('change', function(){
       if($('input[type="checkbox"]').prop('checked')) { //checkbox is checked then redraw
         //Remove existing plot elements
@@ -553,7 +560,7 @@ function draw(dataAll, worldData) {
         drawRegressLine(tempData, 'main')
 
         //Draw the current brush and dropdown selection with new data
-        redraw(tempData, currentIncome, domain1);
+        scatterHandler(tempData, currentIncome, domain1);
 
       } else{
         //Remove existing scatter plot elements
@@ -569,21 +576,21 @@ function draw(dataAll, worldData) {
         drawScatter(data)
         drawRegressLine(data, 'main')
 
-        //Draw the current brush and dropdown selection with new data
-        redraw(data, currentIncome, domain1);
+        //Aply the handler the current brush and dropdown selection with new data
+        scatterHandler(data, currentIncome, domain1);
       }
     })
 
 
     /*
     #################################################
-    SECTION 3.5: THE REDRAW FUNCTION FOR SCATTER FOR THE BRUSH AND DROPDOWN EVENTS
+    SECTION 3.5: THE HANDLER FUNCTION FOR SCATTER FOR THE BRUSH AND DROPDOWN EVENTS
     To-Dos: 1. Investigate why the fill attribute cannot be modified through css class
               2. DONE         Find the ideal 'selected' fill color
     #################################################
     */
 
-    function redraw(data, currentIncome, domain1){
+    function scatterHandler(data, currentIncome, domain1){
       if(currentIncome === "All Countries"){ //checking if default view should be applied
         if(domain1[0].getFullYear() === startYear && domain1[1].getFullYear() === endYear){
           // set to default view
