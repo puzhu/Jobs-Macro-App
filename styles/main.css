@@ -1,35 +1,40 @@
 body {
   padding : 5px ;
 }
-
+#introText{
+  margin:5px
+}
 /*Defining the chart areas*/
 .chartArea{
   background-color: #C7C7C7;
 }
 #scatterControls{
+  margin-top: 5px;
   height: 100px;
   /*border: 1px dotted black;*/
 }
 #brushDiv{
   height: 100px;
-  border: 1px dotted black;
+  /*border: 1px dotted black;*/
 }
+
 #incomeClassDiv{
   height: 100px;
-  border: 1px dotted blue;
 }
 #scatterChart{
   height: 400px;
-  border: 1px dotted blue;
 }
+
 #scatterText{
   height:475px;
-  border: 1px dotted green;
 }
 
 svg{
-  /*border: 1px dotted red;*/
   font: 10px sans-serif;
+}
+#xScatterTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 /*Style the regression lines*/
@@ -55,7 +60,6 @@ svg{
   stroke: green;
   stroke-width: 1.25;
   opacity: 0.6
-  /*fill: rgb(33, 150, 243);*/
 }
 .default {
   stroke: black;
@@ -72,33 +76,36 @@ svg{
   font-size: 11px;
 }
 
+.x--scatterAxis .domain, .y--scatterAxis .domain {
+  stroke: black;
+  stroke-opacity: .5;
+}
+
 /*Brush CSS*/
-.brushAxis--grid .domain {
-  /*fill: #ddd;*/
-  /*stroke: none;*/
-}
-
-.brushAxis--x .domain,
-.brushAxis--grid .tick line {
+ .tick line {
   stroke: #fff;
   stroke-opacity: .5;
 }
-
-.brushAxis--y .domain, .tick line {
-  stroke: #fff;
+.brushAxis--x .domain, .brushAxis--y .domain{
+  stroke: black;
   stroke-opacity: .5;
-  /*stroke: none;*/
 }
-
 .handle--e, .handle--w{
-  fill: red;
-  opacity: 0.5;
+  fill: black;
+  stroke:green;
+  fill-opacity: 0.5;
+  stroke-width:0.75px;
 }
 .selection {
   stroke-width: 0px;
   stroke: none;
 }
-
+.brushLine{
+  fill: none;
+  stroke: green;
+  stroke-width: 1.5px;
+  stroke-opacity: .5;
+}
 
 
 /*Toggle switch for outliers*/
@@ -142,11 +149,11 @@ svg{
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #63AAC8;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #63AAC8;
 }
 
 input:checked + .slider:before {
@@ -166,10 +173,13 @@ input:checked + .slider:before {
 
 
 /*Dropdown CSS*/
-select{
+#incomeDropdown{
   width: 200px;
 }
-label.incomeClassDropdown select {
+#xScatterTitleDropDown{
+  width: 400px;
+}
+label.appDropDown select {
 	padding: 10px 42px 10px 10px;
 	background: #f8f8f8;
 	color: #444;
@@ -182,14 +192,14 @@ label.incomeClassDropdown select {
 	cursor: pointer;
 	outline: none;
 }
-label.incomeClassDropdown select:-moz-focusring {
+label.appDropDown select:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 #444;
 }
-label.incomeClassDropdown select::-ms-expand {
+label.appDropDown select::-ms-expand {
 	display: none;
 }
-label.incomeClassDropdown:before {
+label.appDropDown:before {
 	content: '';
 	right: 5px;
 	top: 2px;
@@ -200,17 +210,17 @@ label.incomeClassDropdown:before {
 	pointer-events: none;
 	display: block;
 }
-label.incomeClassDropdown { position: relative; }
-label.incomeClassDropdown:after {
+label.appDropDown { position: relative; }
+label.appDropDown:after {
 	content: '>';
-	font: 20px Consolas, monospace;
+	font: 24px Consolas, monospace;
 	color: #444;
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
 	-ms-transform: rotate(90deg);
 	transform: rotate(90deg);
 	right: 0px;
-	top: 5px;
+	top: 0px;
 	/*border-bottom: 3px solid #aaa;*/
 	position: absolute;
 	pointer-events: none;
@@ -219,16 +229,16 @@ label.incomeClassDropdown:after {
 	text-indent: 15px;
 }
 @media screen\0 {
-	label.incomeClassDropdown:after {
+	label.appDropDown:after {
 		width: 38px;
 		text-indent: 15px;
 		right: 0;
 	}
 }
 @media screen and (min--moz-device-pixel-ratio:0) {
-	label.incomeClassDropdown select { padding-right: 40px; }
-	label.incomeClassDropdown:before { right: 6px; }
-	label.incomeClassDropdown:after {
+	label.appDropDown select { padding-right: 40px; }
+	label.appDropDown:before { right: 6px; }
+	label.appDropDown:after {
 		text-indent: 14px;
 		right: 6px;
 		top: -5px;
