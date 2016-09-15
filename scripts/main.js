@@ -49,8 +49,8 @@ function calcVizAllGrData(data, startYear, endYear, depVar){
 
 //Remove outliers
 function removeOutliers(data) {
-  var yDeviation = d3.deviation(data, function(d) {return d.gdpRate}) * 2.5;
-  var xDeviation = d3.deviation(data, function(d) {return d.xVarRate}) * 2.5;
+  var yDeviation = d3.deviation(data, function(d) {return d.gdpRate}) * 3;
+  var xDeviation = d3.deviation(data, function(d) {return d.xVarRate}) * 3;
   return data.filter(function(d) {return d.gdpRate < yDeviation && d.gdpRate > -yDeviation && d.xVarRate < xDeviation && d.xVarRate > -xDeviation})
 }
 
