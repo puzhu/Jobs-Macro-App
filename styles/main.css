@@ -1,41 +1,59 @@
 body {
   padding : 5px ;
 }
-#introText{
-  margin:5px
+
+.helpText{
+  font-size: 12px;
+}
+.lead{
+  margin-bottom: 0;
 }
 /*Defining the chart areas*/
-.chartArea{
+#chartArea{
   background-color: #C7C7C7;
 }
 #scatterControls{
   margin-top: 10px;
-  height: 100px;
-  /*border: 1px dotted black;*/
+  height: 140px;
 }
 #brushDiv{
-  height: 100px;
-  /*border: 1px dotted black;*/
+  height: 90px;
+}
+#brushTitle {
+  margin-left: 80px;
 }
 
 #incomeClassDiv{
-  height: 100px;
+  height: 90px;
 }
+
+#outlierHeading{
+  margin-top: 5px;
+}
+
 #scatterChart{
-  height: 400px;
+  height: 360px;
 }
-
-#scatterText{
-  height:475px;
-}
-
-svg{
-  font: 10px sans-serif;
+#scatterTitle{
+  margin-top: 30px;
+  /*border: 1px dotted;*/
 }
 #xScatterTitle {
   margin-top: 0;
   margin-bottom: 10px;
 }
+
+#scatterText{
+  height:470px;
+}
+
+svg{
+  font: 10px sans-serif;
+}
+
+
+
+
 
 /*Style the regression lines*/
 .mainregLine {
@@ -109,10 +127,7 @@ svg{
 
 
 /*Toggle switch for outliers*/
-#outlierHeading{
-  margin-top: 5px;
-  margin-bottom: 0;
-}
+
 .switch {
   position: relative;
   display: inline-block;
@@ -213,7 +228,7 @@ label.appDropDown:before {
 label.appDropDown { position: relative; }
 label.appDropDown:after {
 	content: '>';
-	font: 24px Consolas, monospace;
+	font: 24px;
 	color: #444;
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);

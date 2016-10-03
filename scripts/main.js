@@ -155,8 +155,8 @@ function draw(dataAll, worldData) {
     //Creating the margin convention(source: http://bl.ocks.org/mbostock/3019563)
     var scatterOuterWidth = d3.select('#scatterChart').node().clientWidth,
         scatterOuterHeight = d3.select('#scatterChart').node().clientHeight,
-    		scatterMargin = {top: 10, right: 5, bottom: 5, left: 80},
-        scatterPadding = {top: 2, right: 5, bottom: 2, left: 10},
+    		scatterMargin = {top: 20, right: 5, bottom: 5, left: 80},
+        scatterPadding = {top: 5, right: 5, bottom: 2, left: 10},
         scatterInnerWidth = scatterOuterWidth - scatterMargin.left - scatterMargin.right,
         scatterInnerHeight = scatterOuterHeight - scatterMargin.top - scatterMargin.bottom,
         scatterWidth = scatterInnerWidth - scatterPadding.left - scatterPadding.right,
@@ -226,13 +226,18 @@ function draw(dataAll, worldData) {
             .call(scatterTip);
 
         // Draw the axis
+        var yTransition = scatterPlot.transition() // setting the transition for the axis
+            .duration(750)
+            .ease(d3.easeLinear);
+
+        // scatterPlot.select('.y--scatterAxis').transition(yTransition).call(yScatterAxis)
         scatterPlot.append('g')
             .call(yScatterAxis)
-            .attr('class', 'x--scatterAxis');
+            .attr('class', 'y--scatterAxis');
         scatterPlot.append('g')
             .call(xScatterAxis)
             .attr('transform', 'translate(0,' + yScatterScale(0) + ")")
-            .attr('class', 'y--scatterAxis');
+            .attr('class', 'x--scatterAxis');
 
       // Adding a text element with no. of observations
       addObs(data);
@@ -336,12 +341,12 @@ function draw(dataAll, worldData) {
         brushHeight = brushInnerHeight - brushPadding.top - brushPadding.bottom;
 
     // Creating a popup over the brush areas
-    var brushTip = d3.tip()
-      .attr('class', 'd3-tip')
-      .attr('id', 'popUp')
-      .offset([0, 20])
-        .direction('e')
-            .html(function(d) {return "<p>Click and drag to select years</p>"})
+    // var brushTip = d3.tip()
+    //   .attr('class', 'd3-tip')
+    //   .attr('id', 'popUp')
+    //   .offset([0, 20])
+    //     .direction('e')
+    //         .html(function(d) {return "<p>Click and drag to select years</p>"})
 
     //Create the svg
     var brushSvg = d3.select('#brushDiv').append('svg')
@@ -424,21 +429,21 @@ function draw(dataAll, worldData) {
       brushSvg.append("g")
           .attr("class", "brush")
           .call(brush)
-          .call(brushTip)
-          .on('mouseover', function(){
-            if(popUp < 1){
-              brushTip.show();
-              setTimeout(function(){brushTip.hide()}, 5000)
-              popUp++
-            }
-          })
-          .on('mouseout', function() {
-            if(mouseOutCount < 2){
-              setTimeout(function(){
-                popUp = 0}, 10000)
-              mouseOutCount++
-            }
-          })
+          // .call(brushTip)
+          // .on('mouseover', function(){
+          //   if(popUp < 1){
+          //     brushTip.show();
+          //     setTimeout(function(){brushTip.hide()}, 5000)
+          //     popUp++
+          //   }
+          // })
+          // .on('mouseout', function() {
+          //   if(mouseOutCount < 2){
+          //     setTimeout(function(){
+          //       popUp = 0}, 10000)
+          //     mouseOutCount++
+          //   }
+          // })
     }
 
 
