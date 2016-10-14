@@ -23,9 +23,9 @@
     <div class="row" id="app-area">
       <div class="row container-fluid" id='controls-area'>
         <div class="col-lg-6 container-fluid" id="brush-container">
-          <div class="row" id="brush-title">
+          <div class="row chartTitle">
             <p class="lead">
-              World GDP per capita
+              Select Years
             </p>
             <p class="lead helpText">
               (Click and drag below to select years)
@@ -92,15 +92,15 @@
       </div>
       <div class="row container-fluid" id='chart-area'>
         <div class="col-lg-6 container-fluid" id='prodChart-container'>
-          <div class="row" id="prodChart-title">
+          <div class="row chartTitle">
             <p class="lead">
               Productivity vs. GDP Growth
             </p>
             <p class="lead helpText">
-              (Click and drag below to select years)
+              (Hover on dots to highlight individual countries)
             </p>
           </div>
-          <div class="row" id='prodChart'></div>
+          <div class="row text-center" id='prodChart'></div>
           <div class="row text-center" id='prodChart-x-dropdown'>
             <label class='appDropDown'>
               <select id="xProdDropDown">
@@ -113,29 +113,26 @@
           </div>
         </div>
         <div class="col-lg-6 container-fluid" id='empChart-container'>
-          <div class="row" id="empChart-title">
+          <div class="row chartTitle">
             <p class="lead">
-              Emp vs. GDP Growth
+              Productivity vs. Employment (YoY growth)
             </p>
             <p class="lead helpText">
               (Hover on dots to highlight individual countries)
             </p>
           </div>
-          <div class="row" id='empChart'>
+          <div class="row text-center" id='empChart'>
 
           </div>
-          <div class="row" id='empChart-x-dropdown'>
+          <div class="row text-center" id='empChart-x-dropdown'>
             <label class='appDropDown'>
-              <select id="xScatterTitleDropDown">
-                <option>Agricultural Productivity (per year growth)</option>
-                <option>Industrial Productivity (per year growth)</option>
-                <option>Services Productivity (per year growth)</option>
+              <select id="xEmpDropDown">
+                <option>Productivity (Per year growth)</option>
+                <option>Gross Domestic Product (Per year growth)</option>
               </select>
             </label>
           </div>
         </div>
-
-
     </div>
   </div>
 

@@ -6,6 +6,10 @@
   margin-bottom: 0;
 }
 
+.chartTitle {
+  padding-left: 15px;
+}
+
 
 body {
   /*padding : 5px;*/
@@ -20,22 +24,27 @@ svg{
 
 }
 #app-area {
-  background-color: #C7C7C7;
-  padding: 5px;
+
+
 }
  #controls-area {
 
  }
  #chart-area{
-
+  padding: 5px;
+  background-color: #C7C7C7;
+  margin-top: 10px;
  }
 
 /*All other level containers*/
 #brush-container {
 
 }
+
 #brushDiv{
   height: 90px;
+  /*background-color: lightgrey;*/
+  /*padding: 5px;*/
 }
 
 #controls-row-1 {
@@ -48,6 +57,7 @@ svg{
 #prodChart-container {
 
 }
+
 #prodChart{
   height: 300px;
 }
@@ -58,6 +68,14 @@ svg{
 
 #empChart-container {
 
+}
+
+#empChart{
+  height: 300px;
+}
+#empChart-x-dropdown{
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 /*Common axis styling*/
@@ -72,8 +90,6 @@ svg{
 
 /*Scatter Plot CSS*/
 .dots{
-  -webkit-transition: fill-opacity 250ms linear;
-  cursor: pointer;
 }
 .selected{
   stroke: green;
@@ -81,6 +97,7 @@ svg{
   opacity: 0.6
 }
 .default {
+  cursor: pointer;
   stroke: black;
   stroke-width: 0.75;
   opacity: .1;
@@ -93,15 +110,17 @@ svg{
 /*Style the regression lines*/
 .mainregLine {
   fill: none;
-  stroke: grey;
-  stroke-width: 2.5px;
-  stroke-dasharray: 3;
+  stroke: lightgrey;
+  stroke-width: 3.5px;
+  stroke-dasharray: 4;
+
 }
 .tempregLine {
   fill: none;
-  stroke: green;
-  stroke-width: 2px;
-  stroke-dasharray: 10;
+  stroke: darkblue;
+  stroke-width: 2.5px;
+  stroke-dasharray: 2;
+  opacity: .7;
 }
 
 /*Brush Css*/
@@ -130,12 +149,14 @@ svg{
 
 
 
-
 /*Dropdown CSS*/
 #incomeDropdown {
   width: 150px;
 }
 #xProdDropDown {
+  width: 350px;
+}
+#xEmpDropDown {
   width: 350px;
 }
 label.appDropDown select {
