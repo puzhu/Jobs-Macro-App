@@ -495,7 +495,6 @@ function draw(dataAll, worldData) {
       } else{
         scatterHandler(data, currentIncome, domain1)
       }
-
     });
 
     // Event listener for x Axis dropdown

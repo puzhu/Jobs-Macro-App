@@ -27,12 +27,6 @@ function createSVG(id, margin, padding) { //plotVar, margin, padding
   return svgProps
 }
 
-//create scales and axis for scatter plots
-
-
-
-
-
         //DATA MANIPULATION HELPERS
 //Convert strings to numbers
 function deString(d) {
@@ -75,7 +69,11 @@ function calcVizAllGrData(data, startYear, endYear, xVar, yVar){
 			xVarRate: (d[xVar])
 		})
 	})
-	return array;
+  if($('input[type="checkbox"]').prop('checked')){
+    return array;
+  } else {
+    return removeOutliers(array);
+  }
 }
 
 //Remove outliers
@@ -105,6 +103,19 @@ var yEmpVarKey = {
   "Agricultural Productivity (per year growth)": "empAg",
   "Industrial Productivity (per year growth)": "empInd",
   "Services Productivity (per year growth)": "empServ"
+}
+
+var prodTitleKey = {
+  "Total Productivity (per year growth)": "Total Productivity",
+  "Agricultural Productivity (per year growth)": "Agricultural Productivity",
+  "Industrial Productivity (per year growth)": "Industrial Productivity",
+  "Services Productivity (per year growth)": "Services Productivity"
+}
+var empTitleKey = {
+  "Total Productivity (per year growth)": "Total Employment",
+  "Agricultural Productivity (per year growth)": "Agricultural Employment",
+  "Industrial Productivity (per year growth)": "Industrial Employment",
+  "Services Productivity (per year growth)": "Services Employment"
 }
 
         //FUNCTIONS TO EXTEND D3 FUNCTIONALITY
@@ -144,7 +155,7 @@ function processScatterData(data) {
 }
 
 // process the world gdp per cap data for the brush
-function processBrushData(data) {
+function processallBrushData(data) {
     var array = {
         countryGroup: data.countryGroup,
         year: new Date(deString(data.year), 1, 1),
@@ -162,20 +173,20 @@ SECTION 2: LOAD THE DATA FILES AND PROCESS THEM
 */
 d3.queue()
     .defer(d3.csv, "data/allGrData.csv", processScatterData)
-    .defer(d3.csv, "data/gdpPerCapData.csv", processBrushData)
+    .defer(d3.csv, "data/gdpPerCapData.csv", processallBrushData)
     .await(ready);
 
-function ready(error, dataAll, brushData) {
-    draw(dataAll, brushData);
+function ready(error, dataAll, allBrushData) {
+    draw(dataAll, allBrushData);
 }
 
-function draw(dataAll, brushData) {
+function draw(dataAll, allBrushData) {
   /*
   #################################################
   SECTION 3: GET THE DATA READY
   #################################################
   */
-  //Identify the start year and end year of the data
+  //Identify the start year and end year of the data (the two dates should never be updated)
   var startYear = d3.min(dataAll, function(d) {
       return d.year;
   })
@@ -206,9 +217,9 @@ function draw(dataAll, brushData) {
   var currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
 
   //Create the datasets for charting
-  var prodData = removeOutliers(calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY));
-  var empData = removeOutliers(calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
-  var currBrushData = brushData.filter(function(d) {return d.countryGroup === currentCountryGroup;});
+  var prodData = (calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY));
+  var empData = (calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
+  var currBrushData = allBrushData.filter(function(d) {return d.countryGroup === currentCountryGroup;});
 
   /*
   #################################################
@@ -245,9 +256,9 @@ function draw(dataAll, brushData) {
           "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
             "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
 
-      //BRUSH
+      //CREATE BRUSH
   //Creating the svg
-  var brushVars = createSVG('#brushDiv', margin = {top: 5, right: 10, bottom: 20, left: 50}, padding = {top: 2, right: 2, bottom: 2, left: 10}),
+  var brushVars = createSVG('#brushDiv', margin = {top: 5, right: 10, bottom: 20, left: 25}, padding = {top: 2, right: 2, bottom: 2, left: 10}),
       brushWidth = brushVars.width,
       brushHeight = brushVars.height,
       brushSvg = brushVars.plotVar;
@@ -258,11 +269,6 @@ function draw(dataAll, brushData) {
       .rangeRound([0, brushWidth]);
 
   var yBrushScale = d3.scaleLinear() //based on the max and min values of the world gdp data
-      .domain([d3.min(currBrushData, function(d) {
-          return d.gdpPc
-      }), d3.max(currBrushData, function(d) {
-          return d.gdpPc
-      })])
       .range([brushHeight, 0]);
 
   //Create the brush
@@ -272,6 +278,22 @@ function draw(dataAll, brushData) {
           [brushWidth, brushHeight]
       ])
       .on("end", brushended);
+  //Call the brush on the svg (only called once)
+  brushSvg.append("g")
+      .attr("class", "brush")
+      .call(brush)
+
+  // Draw the x axis for the brush (only drawn once)
+  brushSvg.append("g")
+      .attr("class", "brushAxis brushAxis--x")
+      .attr("transform", "translate(0," + brushHeight + ")")
+      .call(d3.axisBottom(xBrushScale)
+          .ticks(d3.timeYear)
+          .tickPadding(2))
+      .attr("text-anchor", null)
+      .selectAll("text")
+      .attr("x", -22); //offset the tick labels to the left of the ticks
+
   // Draw the default charts for productivity
   drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
   drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
@@ -282,31 +304,29 @@ function draw(dataAll, brushData) {
   drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
   drawRegressLine(empData, 'main',empPlot, xEmpScale, yEmpScale, 'emp')
 
-  //Draw the default brush
-  drawBrush(currBrushData, brushSvg, brush, brushWidth, brushHeight, xBrushScale, yBrushScale)
+  //Draw the brush line
+  drawBrushLine(currBrushData, currentCountryGroup, brushSvg, xBrushScale, yBrushScale, brushHeight, 'main')
 
 
   /*
   #################################################
-  SECTION 3.4: EVENT HANDLER FOR THE X VARIABLES
-  To-Dos: 1. Keep the brush on x var change and apply on new charts
+  SECTION 3.4: EVENT HANDLER FOR THE X AXIS DROPDOWNS
+  To-Dos: 1.
   #################################################
   */
   // Event listener for x Axis dropdown FOR productivity
   d3.select('#xProdDropDown').on('change.line', function() {
-    // change the productivity data based on new x variable
+    // update the x variable for the productivity chart (based on sector selected)
     selProdXVar = document.getElementById('xProdDropDown');
     currentProdX = xProdVarKey[selProdXVar.options[selProdXVar.selectedIndex].value];
-    prodData = removeOutliers(calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY));
+    //update the data based on the new x variable
+    prodData = (calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY));
 
-    // change the employment data based on new x variable
+    // update the y variable for the employment chart
     currentEmpY = yEmpVarKey[selProdXVar.options[selProdXVar.selectedIndex].value];
-    if (selEmpXVar.options[selEmpXVar.selectedIndex].value === "Productivity (Per year growth)") {
-      currentEmpX = currentProdX
-    } else {
-      currentEmpX = currentProdY
-    }
-    empData = removeOutliers(calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
+    // update the data based on the new employment data
+    empData = (calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
+
     //Redraw existing productivity plot elements
     drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
     drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
@@ -317,53 +337,76 @@ function draw(dataAll, brushData) {
     drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
     drawRegressLine(empData, 'main', empPlot, xEmpScale, yEmpScale, 'emp')
 
-    // Reset the outliers button
-    $('input[type="checkbox"]').prop('checked',false)
-
-    // Reset the country dropdown
-    $('#incomeDropdown option').prop('selected', function() {return this.defaultSelected;})
-
-    // reset the default income class and date domains
-    selCountryGroup = document.getElementById('incomeDropdown');
-    currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
-    yearDomainRange =[new Date(startYear, 1, 1), new Date(endYear, 1, 1)]
-
-    // Reset the brush
-    d3.select('.brush').call(brush.move, null)
-
+    // Reflect existing inputs on new data
+    scatterHandler()
   })
 
   // Event listener for x Axis dropdown FOR employment
-  // d3.select('#xEmpDropDown').on('change.line', function() {
-  //   // change the data based on new x variable
-  //   selEmpXVar = document.getElementById('xEmpDropDown');
-  //   currentEmpX = xProdVarKey[selEmpXVar.options[selEmpXVar.selectedIndex].value];
-  //   empData = removeOutliers(calcVizAllGrData((dataAll), startYear, endYear, currentEmpX));
-  //
-  //   // Reset the outliers button
-  //   $('input[type="checkbox"]').prop('checked',false)
-  //
-  //   // Reset the country dropdown
-  //   $('#incomeDropdown option').prop('selected', function() {return this.defaultSelected;})
-  //
-  //   // reset the default income class and date domains
-  //   selCountryGroup = document.getElementById('incomeDropdown');
-  //   currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
-  //   yearDomainRange =[new Date(startYear, 1, 1), new Date(endYear, 1, 1)]
-  //
-  //
-  //
-  //   //Remove existing plot elements
-  //   drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
-  //   drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
-  //   drawRegressLine(empData, 'main', empPlot, xEmpScale, yEmpScale, 'emp')
-  //
-  //   // Apply current date settings to new scatter
-  //   d3.select('.brush').call(brush.move, null)
-  //
-  //   //Draw the temporary regression line
-  //
-  // })
+  d3.select('#xEmpDropDown').on('change.line', function() {
+    // update the x variable (gdp or productivity)
+    if (selEmpXVar.options[selEmpXVar.selectedIndex].value === "Productivity (Per year growth)") {
+      currentEmpX = currentProdX
+    } else {
+      currentEmpX = currentProdY
+    }
+    // update the data based on the new x variable
+    empData = (calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
+
+    //Remove existing plot elements
+    drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
+    drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
+    drawRegressLine(empData, 'main', empPlot, xEmpScale, yEmpScale, 'emp')
+
+    // Reflect existing inputs on new data
+    scatterHandler()
+    // d3.select('.brush').call(brush.move, null)
+  })
+
+  /*
+  #################################################
+  SECTION 3.4: EVENT HANDLER FOR THE OUTLIERS SWITCH
+  To-Dos: 1.
+  #################################################
+  */
+
+  d3.select('#outlierCheck').on('change', function(){
+    if($('input[type="checkbox"]').prop('checked')) { //checkbox is checked then redraw
+      // update the two data sets
+      prodData = calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY);
+      empData = calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY);
+
+      ///Redraw existing productivity plot elements
+      drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
+      drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
+      drawRegressLine(prodData, 'main', prodPlot, xProdScale, yProdScale, 'prod')
+
+      //Redraw existing employment plot elements
+      drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
+      drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
+      drawRegressLine(empData, 'main', empPlot, xEmpScale, yEmpScale, 'emp')
+
+      //Apply existing inputs on new charts
+      scatterHandler();
+
+    } else{
+      // update the two data sets
+      prodData = (calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY));
+      empData = (calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
+
+      ///Redraw existing productivity plot elements
+      drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
+      drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
+      drawRegressLine(prodData, 'main', prodPlot, xProdScale, yProdScale, 'prod')
+
+      //Redraw existing employment plot elements
+      drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
+      drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
+      drawRegressLine(empData, 'main', empPlot, xEmpScale, yEmpScale, 'emp')
+
+      //Apply existing inputs on new charts
+      scatterHandler();
+    }
+  })
   /*
   #################################################
   SECTION 3.4: BRUSH End EVENT HANDLERS
@@ -393,9 +436,26 @@ function draw(dataAll, brushData) {
           .transition()
           .call(brush.move, yearDomainRange.map(xBrushScale));
       //call the redraw function
-      // drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
       scatterHandler()
   }
+
+  /*
+  #################################################
+  SECTION 3.4: COUNTRY GROUPS DROPDOWN
+  To-Dos: 1.
+  #################################################
+  */
+  d3.select('#incomeDropdown').on('change.line', function() {
+    // update the values of control variables
+    selCountryGroup = document.getElementById('incomeDropdown');
+    currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
+    scatterHandler()
+
+    // Change the line on the brush
+    currBrushData = allBrushData.filter(function(d) {return d.countryGroup === currentCountryGroup || d.countryGroup === 'W'});
+    drawBrushLine(currBrushData, currentCountryGroup, brushSvg, xBrushScale, yBrushScale, brushHeight)
+  });
+
   /*
   #################################################
   SECTION 3.4: SCATTER EVENT HANDLER
@@ -412,6 +472,8 @@ function draw(dataAll, brushData) {
         d3.selectAll('.dots').classed('selected', false).classed('default', true);
 
         // update number of obsText
+        nObs(prodData, prodPlot, prodWidth, prodHeight, 'prod')
+        nObs(empData, empPlot, empWidth, empHeight, 'emp')
       } else {
         // Hide or show scatterCircles based on the start and end year of the brush
         d3.selectAll('.dots').filter(function(d) { return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront();
@@ -420,13 +482,84 @@ function draw(dataAll, brushData) {
         // Draw a temparory regression line for each brush end event
         tempProdData = prodData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()})
         tempEmpData = empData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()})
-        // d3.select('.tempregLine').remove() //remove the previous temp line
-
         drawRegressLine(tempProdData, 'temp', prodPlot, xProdScale, yProdScale, 'prod')
         drawRegressLine(tempEmpData, 'temp', empPlot, xEmpScale, yEmpScale, 'emp')
-      }
-    }
 
+        // update number of obsText
+        nObs(tempProdData, prodPlot, prodWidth, prodHeight, 'prod')
+        nObs(tempEmpData, empPlot, empWidth, prodHeight, 'emp')
+      }
+    } else {
+      // Hide or show scatterCircles based on the start and end year of the brush
+      d3.selectAll('.dots').filter(function(d) { return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+      d3.selectAll('.dots').filter(function(d) { return d.year < yearDomainRange[0].getFullYear() || d.year > yearDomainRange[1].getFullYear() || d.incomeClass != currentCountryGroup} ).classed('selected', false).classed('default', true).moveToBack();
+
+      // Draw a temparory regression line for each brush end event
+      tempProdData = prodData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
+      tempEmpData = empData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
+
+      drawRegressLine(tempProdData, 'temp', prodPlot, xProdScale, yProdScale, 'prod')
+      drawRegressLine(tempEmpData, 'temp', empPlot, xEmpScale, yEmpScale, 'emp')
+
+      // update number of obsText
+      nObs(tempProdData, prodPlot, prodWidth, prodHeight, 'prod')
+      nObs(tempEmpData, empPlot, empWidth, prodHeight, 'emp')
+    }
+  }
+
+  /*
+  #################################################
+  SECTION 3.2: DRAW THE SCATTER PLOT
+  To-Dos: 1.
+  #################################################
+  */
+  function drawScatterPlot(data, plotVar, xScale, yScale, toolTip, varType) {
+      var className = varType + 'Dots'
+      //Remove existing elements
+      d3.selectAll('.' + className).remove()
+
+      //drawing the plot
+      plotVar.append('g').selectAll('.dots').data(data)
+          .enter().append('circle')
+          .attr('r', 5)
+          .attr('cx', function(d) {
+              return xScale(d.xVarRate);
+          })
+          .attr('cy', function(d) {
+              return yScale(d.yVarRate);
+          })
+          .attr('class', 'dots default ' + className )
+          .on('mouseover', mouseoverDots)
+          .on('mouseout', mouseoutDots)
+          .call(toolTip);
+
+      //Draw titles
+      var tempProdXVar = document.getElementById('xProdDropDown');
+      var currentProdTitle = prodTitleKey[tempProdXVar.options[tempProdXVar.selectedIndex].value];
+      if(varType === 'prod'){
+        d3.select('#prodChartXVar').html(currentProdTitle)
+      } else {
+        var tempEmpYVar = document.getElementById('xEmpDropDown');
+        var currentEmpTitle = empTitleKey[tempProdXVar.options[tempProdXVar.selectedIndex].value];
+        if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (Per year growth)") {
+          d3.select('#empChartXVar').html(currentProdTitle)
+          d3.select('#empChartYVar').html(currentEmpTitle)
+        } else {
+          d3.select('#empChartXVar').html("GDP Growth")
+          d3.select('#empChartYVar').html(currentEmpTitle)
+        }
+      }
+
+      function mouseoverDots(d){
+        d3.selectAll('.dots').filter(function(e) {return e.country === d.country}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+        d3.selectAll('.dots').filter(function(e) {return e.country != d.country}).classed('selected', false).classed('default', true).moveToBack()
+        toolTip.show(d)
+      }
+      // Mouseout function fo scatter plot
+      function mouseoutDots(d){
+        scatterHandler()
+        toolTip.hide(d)
+      }
   }
 
 
@@ -484,56 +617,43 @@ function drawScatterAxis(data, plotVar, xScale, yScale, width, height, varType) 
         // .attr('class', className)
         .text(yAxisText);
 
+  // Add text for observations
+  nObs(data, plotVar, width, height, varType)
+
+}
+//Scatter Helper for number of observations
+function nObs(data, plotVar, width, height, varType) {
+  // create plot specific unique class
+  var obsClass = varType + "obsText"
+  // remove existing text for specified chart
+  // console.log(obsClass)
+  d3.selectAll('.' + obsClass).remove()
+
+  // Create first line
   var nObsText = "No of obs: " + data.length;
+
+  // create second line
   var uniqueText = "Countries: " + unique(data.map(function(d) { return d.country;})).length
-  var xOffset = 80;
+  // Append the text to the plot
   plotVar.append('g')
         .append('text')
-        .attr('x', width - xOffset)
-        .attr('y', yScale(0))
+        .attr('x', width - 80)
+        .attr('y', height - 0)
         .attr('dy', -2)
         .text(nObsText)
-        .attr('class', 'obsText '+ className)
-        // .attr('class', className)
+        .attr('class', 'obsText '+ obsClass)
         .moveToFront();
 
   plotVar.append('g')
         .append('text')
-        .attr('x', width - xOffset)
-        .attr('y', yScale(0))
+        .attr('x', width - 80)
+        .attr('y', height - 0)
         .attr('dy', -14)
         .text(uniqueText)
-        .attr('class', 'obsText '+ className)
-        // .attr('class', className)
+        .attr('class', 'obsText '+ obsClass)
         .moveToFront();
 }
 
-/*
-#################################################
-SECTION 3.2: DRAW THE SCATTER PLOT
-To-Dos: 1.
-#################################################
-*/
-function drawScatterPlot(data, plotVar, xScale, yScale, toolTip, varType) {
-    var className = varType + 'Dots'
-    //Remove existing elements
-    d3.selectAll('.' + className).remove()
-
-    //drawing the plot
-    plotVar.append('g').selectAll('.dots').data(data)
-        .enter().append('circle')
-        .attr('r', 5)
-        .attr('cx', function(d) {
-            return xScale(d.xVarRate);
-        })
-        .attr('cy', function(d) {
-            return yScale(d.yVarRate);
-        })
-        .attr('class', 'dots default ' + className )
-        // .on('mouseover', mouseoverDots)
-        // .on('mouseout', mouseoutDots)
-        .call(toolTip);
-}
 
 /*
 #################################################
@@ -582,41 +702,32 @@ function drawRegressLine(data, type, plotVar, xScale, yScale, varType) {
 
 /*
 #################################################
-SECTION 3.4: CREATE A TWO HANDLE BRUSH WITH GLOBAL GDP DATA
+SECTION 3.4: CREATE A LINE CHART ON TOP OF THE BRUSH
 To-Dos: 1.
 #################################################
 */
-function drawBrush(brushData, plotVar, brush, width, height, xScale, yScale){
-  plotVar.append("g")
-      .attr("class", "brushAxis brushAxis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(xScale)
-          .ticks(d3.timeYear)
-          .tickPadding(2))
-      .attr("text-anchor", null)
-      .selectAll("text")
-      .attr("x", -22); //offset the tick labels to the left of the ticks
+function drawBrushLine(brushData, countryGroup, plotVar, xScale, yScale, height) {
 
+
+  // Remove existing elements
+  d3.select('.brushAxis--y').remove();
+  d3.select('.tempbrushLine').remove();
+  d3.select('.mainbrushLine').remove();
+  d3.selectAll('.y--brushTitle').remove();
+
+  //update the scale domains
+  yScale.domain([d3.min(brushData, function(d) {
+      return d.gdpPc
+  }), d3.max(brushData, function(d) {
+      return d.gdpPc
+  })])
+
+  //Draw the Y-Axis
   plotVar.append('g')
       .attr('class', 'brushAxis brushAxis--y')
       .call(d3.axisLeft(yScale)
           .ticks(3)
           .tickPadding(2));
-
-  //Draw the gdp chart
-  var gdpLine = d3.line()
-      .x(function(d) {
-          return xScale(d.year);
-      })
-      .y(function(d) {
-          return yScale(d.gdpPc);
-      });
-
-  //Draw the world line
-  plotVar.append('g').append('path')
-      .datum(brushData)
-      .attr('d', gdpLine)
-      .attr('class', 'brushLine');
 
   // Axis title
   plotVar.append("text")
@@ -625,11 +736,38 @@ function drawBrush(brushData, plotVar, brush, width, height, xScale, yScale){
         .attr('class', 'y--brushTitle')
         .attr("dy", "0em")
         .text("GDP per cap.")
+  plotVar.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate("+ 10 +","+(height/2)+")rotate(-90)")
+        .attr('class', 'y--brushTitle')
+        .attr("dy", "1em")
+        .text("(in ,100s)")
 
-  //Call the brush on the svg
-  plotVar.append("g")
-      .attr("class", "brush")
-      .call(brush)
+    //The line function for the brush chart
+    var gdpLine = d3.line()
+        .x(function(d) {
+            return xScale(d.year);
+        })
+        .y(function(d) {
+            return yScale(d.gdpPc);
+        });
 
+    //Draw the brush line
+    if(countryGroup === 'W') {
+      plotVar.append('g').append('path')
+          .datum(brushData)
+          .attr('d', gdpLine)
+          .attr('class', 'mainbrushLine');
+    } else {
+      plotVar.append('g').append('path')
+          .datum(brushData.filter(function(d) {return d.countryGroup === 'W'}))
+          .attr('d', gdpLine)
+          .attr('class', 'mainbrushLine');
+
+      plotVar.append('g').append('path')
+          .datum(brushData.filter(function(d) {return d.countryGroup != 'W'}))
+          .attr('d', gdpLine)
+          .attr('class', 'tempbrushLine');
+    }
 
 }

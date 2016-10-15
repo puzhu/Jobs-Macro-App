@@ -7,9 +7,12 @@
 }
 
 .chartTitle {
-  padding-left: 15px;
+  padding-left: 25px;
 }
 
+.controlItem {
+  border: 1px dotted;
+}
 
 body {
   /*padding : 5px;*/
@@ -42,9 +45,7 @@ svg{
 }
 
 #brushDiv{
-  height: 90px;
-  /*background-color: lightgrey;*/
-  /*padding: 5px;*/
+  height: 100px;
 }
 
 #controls-row-1 {
@@ -84,8 +85,8 @@ svg{
   stroke-opacity: .5;
 }
 .tick line {
- stroke: #fff;
- stroke-opacity: .5;
+ stroke: lightgrey;
+ /*stroke-opacity: .8;*/
 }
 
 /*Scatter Plot CSS*/
@@ -118,7 +119,7 @@ svg{
 .tempregLine {
   fill: none;
   stroke: darkblue;
-  stroke-width: 2.5px;
+  stroke-width: 3px;
   stroke-dasharray: 2;
   opacity: .7;
 }
@@ -138,20 +139,25 @@ svg{
   stroke-width: 0px;
   stroke: none;
 }
-.brushLine{
+.mainbrushLine{
   fill: none;
   stroke: green;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
+  stroke-opacity: .5;
+}
+.tempbrushLine{
+  fill: none;
+  stroke: red;
+  stroke-width: 2px;
   stroke-opacity: .5;
 }
 
 
 
 
-
 /*Dropdown CSS*/
 #incomeDropdown {
-  width: 150px;
+  width: 145px;
 }
 #xProdDropDown {
   width: 350px;
@@ -193,18 +199,18 @@ label.appDropDown:before {
 label.appDropDown { position: relative; }
 label.appDropDown:after {
 	content: '>';
-	font: 24px;
+	font: 40px;
 	color: #444;
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
 	-ms-transform: rotate(90deg);
 	transform: rotate(90deg);
-	right: -5px;
-	top: 5px;
+	right: 0px;
+	top: 2px;
 	/*border-bottom: 3px solid #aaa;*/
 	position: absolute;
 	pointer-events: none;
-	width: 35px;
+	width: 40px;
 	padding: 0 0 5px 0;
 	text-indent: 15px;
 }
