@@ -229,7 +229,7 @@ function draw(dataAll, allBrushData) {
   */
         //PRODUCTIVITY CHART
   //Creating the svg
-  var prodChartVars = createSVG('#prodChart', margin = {top: 5, right: 5, bottom: 0, left: 28}, padding = {top: 5, right: 10, bottom: 2, left: 12}),
+  var prodChartVars = createSVG('#prodChart', margin = {top: 5, right: 5, bottom: 0, left: 35}, padding = {top: 5, right: 15, bottom: 2, left: 2}),
       prodWidth = prodChartVars.width,
       prodHeight = prodChartVars.height,
       prodPlot = prodChartVars.plotVar,
@@ -238,7 +238,7 @@ function draw(dataAll, allBrushData) {
 
         //EMPLOYMENT CHART
   //Creating the svg
-  var empChartVars = createSVG('#empChart', margin = {top: 5, right: 5, bottom: 0, left: 28}, padding = {top: 5, right: 10, bottom: 2, left: 12}),
+  var empChartVars = createSVG('#empChart', margin = {top: 5, right: 5, bottom: 0, left: 35}, padding = {top: 5, right: 2, bottom: 2, left: 15}),
       empWidth = empChartVars.width,
       empHeight = empChartVars.height,
       empPlot = empChartVars.plotVar,
@@ -250,15 +250,11 @@ function draw(dataAll, allBrushData) {
     .attr('class', 'd3-tip')
     .attr('id', 'popUp')
     .offset([10, 5])
-      .direction('e')
-      .html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
-        "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
-          "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
-            "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+      .direction('e');
 
       //CREATE BRUSH
   //Creating the svg
-  var brushVars = createSVG('#brushDiv', margin = {top: 5, right: 10, bottom: 20, left: 25}, padding = {top: 2, right: 2, bottom: 2, left: 10}),
+  var brushVars = createSVG('#brushDiv', margin = {top: 5, right: 5, bottom: 20, left: 35}, padding = {top: 2, right: 2, bottom: 2, left: 10}),
       brushWidth = brushVars.width,
       brushHeight = brushVars.height,
       brushSvg = brushVars.plotVar;
@@ -521,7 +517,7 @@ function draw(dataAll, allBrushData) {
       //drawing the plot
       plotVar.append('g').selectAll('.dots').data(data)
           .enter().append('circle')
-          .attr('r', 5)
+          .attr('r', 3.5)
           .attr('cx', function(d) {
               return xScale(d.xVarRate);
           })
@@ -553,6 +549,23 @@ function draw(dataAll, allBrushData) {
       function mouseoverDots(d){
         d3.selectAll('.dots').filter(function(e) {return e.country === d.country}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
         d3.selectAll('.dots').filter(function(e) {return e.country != d.country}).classed('selected', false).classed('default', true).moveToBack()
+        if(varType === 'prod'){
+          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+              "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+                "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+        } else if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (Per year growth)") {
+          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+              "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+                "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+        } else {
+          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+              "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+                "<strong>GDP Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+        }
+
         toolTip.show(d)
       }
       // Mouseout function fo scatter plot
@@ -560,6 +573,7 @@ function draw(dataAll, allBrushData) {
         scatterHandler()
         toolTip.hide(d)
       }
+      d3.selectAll('.tick').selectAll('text').moveToFront()
   }
 
 
@@ -602,20 +616,30 @@ function drawScatterAxis(data, plotVar, xScale, yScale, width, height, varType) 
       .call(xAxis)
       .attr('transform', 'translate(0,' + yScale(0) + ")")
       .attr('class', 'x--scatterAxis ' + className)
+      .moveToFront()
 
   // Draw the labels
   var yAxisText;
   if(varType === "prod"){
-    yAxisText = "GDP Growth (Yearly)"
+    yAxisText1 = "% GDP Growth";
+    yAxisText2 = "(Yearly)"
   } else {
-    yAxisText = "Emp. Growth (Yearly)"
+    yAxisText1 = "% Emp. Growth";
+    yAxisText2 = "(Yearly)";
   }
   plotVar.append("text")
         .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-        .attr("transform", "translate("+ 10 +","+(height/6)+")rotate(-90)")
-        .attr('class', 'y--prodTitle ' + className)
-        // .attr('class', className)
-        .text(yAxisText);
+        .attr("transform", "translate("+ 12 +","+(height/7)+")rotate(-90)")
+        .attr('dx', 2)
+        .attr('class', 'y--scatterTitle ' + className)
+        .text(yAxisText1);
+
+  plotVar.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate("+ 12 +","+(height/7)+")rotate(-90)")
+        .attr('dy', 12)
+        .attr('class', 'y--scatterTitle ' + className)
+        .text(yAxisText2);
 
   // Add text for observations
   nObs(data, plotVar, width, height, varType)
@@ -707,8 +731,6 @@ To-Dos: 1.
 #################################################
 */
 function drawBrushLine(brushData, countryGroup, plotVar, xScale, yScale, height) {
-
-
   // Remove existing elements
   d3.select('.brushAxis--y').remove();
   d3.select('.tempbrushLine').remove();

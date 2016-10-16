@@ -1,17 +1,19 @@
 /*General styles*/
 .helpText{
-  font-size: 12px;
+  font-size: 14px;
+  margin-top: -4px;
 }
 .lead{
   margin-bottom: 0;
 }
 
 .chartTitle {
-  padding-left: 25px;
+  padding-left: 40px;
 }
 
 .controlItem {
-  border: 1px dotted;
+  /*margin-top: 5px;*/
+  /*border: 1px dotted;*/
 }
 
 body {
@@ -52,6 +54,7 @@ svg{
 
 }
 #controls-row-2 {
+  margin-top: 15px;
 
 }
 
@@ -82,11 +85,16 @@ svg{
 /*Common axis styling*/
 .x--scatterAxis .domain, .y--scatterAxis .domain {
   stroke: black;
-  stroke-opacity: .5;
+  stroke-width:1px;
+  /*stroke-opacity: .5;*/
 }
 .tick line {
  stroke: lightgrey;
  /*stroke-opacity: .8;*/
+}
+.tick text {
+  /*fill: green;*/
+  font-size: 11px;
 }
 
 /*Scatter Plot CSS*/
@@ -94,40 +102,47 @@ svg{
 }
 .selected{
   stroke: green;
-  stroke-width: 1.25;
-  opacity: 0.6
+  stroke-width: 0.75;
+  stroke-opacity: .5;
+  fill-opacity: 0.4;
+  cursor: pointer;
 }
 .default {
   cursor: pointer;
   stroke: black;
-  stroke-width: 0.75;
-  opacity: .1;
+  stroke-width: 0.5;
+  stroke-opacity: .3;
+  fill-opacity: .1;
   fill: black;
 }
 .obsText{
-  font-size: 1.1em;
+  font-size: 12px;
+}
+.y--scatterTitle {
+  font-size: 11px;
 }
 
 /*Style the regression lines*/
 .mainregLine {
   fill: none;
-  stroke: lightgrey;
-  stroke-width: 3.5px;
-  stroke-dasharray: 4;
-
+  stroke: #811078;
+  stroke-width: 1.5px;
+  /*stroke-dasharray: 2;*/
+  stroke-opacity: .7;
 }
 .tempregLine {
   fill: none;
-  stroke: darkblue;
+  stroke: #94D7FA;
   stroke-width: 3px;
   stroke-dasharray: 2;
-  opacity: .7;
+  /*stroke-opacity: .7;*/
 }
 
 /*Brush Css*/
 .brushAxis--x .domain, .brushAxis--y .domain{
   stroke: black;
-  stroke-opacity: .5;
+  /*stroke-opacity: .5;*/
+  stroke-width:1px;
 }
 .handle--e, .handle--w{
   fill: black;
@@ -141,15 +156,15 @@ svg{
 }
 .mainbrushLine{
   fill: none;
-  stroke: green;
+  stroke: #811078;
   stroke-width: 2px;
   stroke-opacity: .5;
 }
 .tempbrushLine{
   fill: none;
-  stroke: red;
-  stroke-width: 2px;
-  stroke-opacity: .5;
+  stroke: #94D7FA;
+  stroke-width: 3px;
+  stroke-dasharray: 2;
 }
 
 
