@@ -204,7 +204,7 @@ function draw(dataAll, allBrushData) {
   var selEmpXVar = document.getElementById('xEmpDropDown');
   var currentEmpX;
 
-  if (selEmpXVar.options[selEmpXVar.selectedIndex].value === "Productivity (Per year growth)") {
+  if (selEmpXVar.options[selEmpXVar.selectedIndex].value === "Productivity (per year growth)") {
     currentEmpX = currentProdX
   } else {
     currentEmpX = currentProdY
@@ -229,7 +229,7 @@ function draw(dataAll, allBrushData) {
   */
         //PRODUCTIVITY CHART
   //Creating the svg
-  var prodChartVars = createSVG('#prodChart', margin = {top: 5, right: 5, bottom: 0, left: 35}, padding = {top: 5, right: 15, bottom: 2, left: 2}),
+  var prodChartVars = createSVG('#prodChart', margin = {top: 5, right: 5, bottom: 0, left: 40}, padding = {top: 5, right: 15, bottom: 2, left: 2}),
       prodWidth = prodChartVars.width,
       prodHeight = prodChartVars.height,
       prodPlot = prodChartVars.plotVar,
@@ -238,7 +238,7 @@ function draw(dataAll, allBrushData) {
 
         //EMPLOYMENT CHART
   //Creating the svg
-  var empChartVars = createSVG('#empChart', margin = {top: 5, right: 5, bottom: 0, left: 35}, padding = {top: 5, right: 2, bottom: 2, left: 15}),
+  var empChartVars = createSVG('#empChart', margin = {top: 5, right: 5, bottom: 0, left: 40}, padding = {top: 5, right: 2, bottom: 2, left: 15}),
       empWidth = empChartVars.width,
       empHeight = empChartVars.height,
       empPlot = empChartVars.plotVar,
@@ -254,7 +254,7 @@ function draw(dataAll, allBrushData) {
 
       //CREATE BRUSH
   //Creating the svg
-  var brushVars = createSVG('#brushDiv', margin = {top: 5, right: 5, bottom: 20, left: 35}, padding = {top: 2, right: 2, bottom: 2, left: 10}),
+  var brushVars = createSVG('#brushDiv', margin = {top: 5, right: 24, bottom: 20, left: 40}, padding = {top: 2, right: 2, bottom: 2, left: 10}),
       brushWidth = brushVars.width,
       brushHeight = brushVars.height,
       brushSvg = brushVars.plotVar;
@@ -273,11 +273,7 @@ function draw(dataAll, allBrushData) {
           [0, 0],
           [brushWidth, brushHeight]
       ])
-      .on("end", brushended);
-  //Call the brush on the svg (only called once)
-  brushSvg.append("g")
-      .attr("class", "brush")
-      .call(brush)
+      .on("brush end", brushended);
 
   // Draw the x axis for the brush (only drawn once)
   brushSvg.append("g")
@@ -289,6 +285,27 @@ function draw(dataAll, allBrushData) {
       .attr("text-anchor", null)
       .selectAll("text")
       .attr("x", -22); //offset the tick labels to the left of the ticks
+
+  //Call the brush on the svg (only called once)
+  var gBrush = brushSvg.append("g")
+      .attr("class", "brush")
+      .call(brush)
+  // Draw the brush handle
+  var handle = gBrush.selectAll(".handle--custom")
+      .data([{type: "w"}, {type: "e"}])
+      .enter().append("path")
+        .attr("class", "handle--custom")
+        .attr("fill", "#666")
+        .attr("fill-opacity", 0.8)
+        .attr("stroke", "#000")
+        .attr("stroke-width", 1.5)
+        .attr("cursor", "ew-resize")
+        .attr("d", d3.arc()
+            .innerRadius(0)
+            .outerRadius(brushHeight / 2)
+            .startAngle(0)
+            .endAngle(function(d, i) { return i ? Math.PI : -Math.PI; }))
+        .attr("display", "none");
 
   // Draw the default charts for productivity
   drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
@@ -340,7 +357,7 @@ function draw(dataAll, allBrushData) {
   // Event listener for x Axis dropdown FOR employment
   d3.select('#xEmpDropDown').on('change.line', function() {
     // update the x variable (gdp or productivity)
-    if (selEmpXVar.options[selEmpXVar.selectedIndex].value === "Productivity (Per year growth)") {
+    if (selEmpXVar.options[selEmpXVar.selectedIndex].value === "Productivity (per year growth)") {
       currentEmpX = currentProdX
     } else {
       currentEmpX = currentProdY
@@ -416,6 +433,7 @@ function draw(dataAll, allBrushData) {
       if (!d3.event.selection){
         yearDomainRange = [new Date(startYear, 1, 1), new Date(endYear, 1, 1)]; //reset the domain variables
         scatterHandler()
+        handle.attr("display", "none");
         return; // Ignore empty selections i.e exit
       }
       var domain0 = d3.event.selection.map(xBrushScale.invert)//invert the scale to get the domain value
@@ -430,7 +448,10 @@ function draw(dataAll, allBrushData) {
       //implement a smooth transition to year domain
       d3.select(this)
           .transition()
-          .call(brush.move, yearDomainRange.map(xBrushScale));
+          .duration(100)
+          .call(brush.move, yearDomainRange.map(xBrushScale))
+
+      handle.transition().duration(100).attr("display", null).attr("transform", function(d, i) { return "translate(" + yearDomainRange.map(xBrushScale)[i] + "," + brushHeight / 2 + ")"; })
       //call the redraw function
       scatterHandler()
   }
@@ -456,9 +477,12 @@ function draw(dataAll, allBrushData) {
   #################################################
   SECTION 3.4: SCATTER EVENT HANDLER
   To-Dos: 1. Update the observation text
+  "#63AAC8"
+
   #################################################
   */
-  var fillColour = 'rgb(33, 150, 200)'
+
+  var fillColour = 'rgb(33, 150, 200)';
   var tempProdData, tempEmpData;
   function scatterHandler() {
     if(currentCountryGroup === 'W'){
@@ -472,12 +496,12 @@ function draw(dataAll, allBrushData) {
         nObs(empData, empPlot, empWidth, empHeight, 'emp')
       } else {
         // Hide or show scatterCircles based on the start and end year of the brush
-        d3.selectAll('.dots').filter(function(d) { return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront();
-        d3.selectAll('.dots').filter(function(d) { return d.year < yearDomainRange[0].getFullYear() || d.year > yearDomainRange[1].getFullYear()}).classed('selected', false).classed('default', true).moveToBack();
+        d3.selectAll('.dots').filter(function(d) { return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront();
+        d3.selectAll('.dots').filter(function(d) { return d.year <= yearDomainRange[0].getFullYear() || d.year > yearDomainRange[1].getFullYear()}).classed('selected', false).classed('default', true).moveToBack();
 
         // Draw a temparory regression line for each brush end event
-        tempProdData = prodData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()})
-        tempEmpData = empData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()})
+        tempProdData = prodData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()})
+        tempEmpData = empData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear()})
         drawRegressLine(tempProdData, 'temp', prodPlot, xProdScale, yProdScale, 'prod')
         drawRegressLine(tempEmpData, 'temp', empPlot, xEmpScale, yEmpScale, 'emp')
 
@@ -487,12 +511,12 @@ function draw(dataAll, allBrushData) {
       }
     } else {
       // Hide or show scatterCircles based on the start and end year of the brush
-      d3.selectAll('.dots').filter(function(d) { return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
-      d3.selectAll('.dots').filter(function(d) { return d.year < yearDomainRange[0].getFullYear() || d.year > yearDomainRange[1].getFullYear() || d.incomeClass != currentCountryGroup} ).classed('selected', false).classed('default', true).moveToBack();
+      d3.selectAll('.dots').filter(function(d) { return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+      d3.selectAll('.dots').filter(function(d) { return d.year <= yearDomainRange[0].getFullYear() || d.year > yearDomainRange[1].getFullYear() || d.incomeClass != currentCountryGroup} ).classed('selected', false).classed('default', true).moveToBack();
 
       // Draw a temparory regression line for each brush end event
-      tempProdData = prodData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
-      tempEmpData = empData.filter(function(d) {return d.year >= yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
+      tempProdData = prodData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
+      tempEmpData = empData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
 
       drawRegressLine(tempProdData, 'temp', prodPlot, xProdScale, yProdScale, 'prod')
       drawRegressLine(tempEmpData, 'temp', empPlot, xEmpScale, yEmpScale, 'emp')
@@ -537,7 +561,7 @@ function draw(dataAll, allBrushData) {
       } else {
         var tempEmpYVar = document.getElementById('xEmpDropDown');
         var currentEmpTitle = empTitleKey[tempProdXVar.options[tempProdXVar.selectedIndex].value];
-        if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (Per year growth)") {
+        if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (per year growth)") {
           d3.select('#empChartXVar').html(currentProdTitle)
           d3.select('#empChartYVar').html(currentEmpTitle)
         } else {
@@ -554,7 +578,7 @@ function draw(dataAll, allBrushData) {
             "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
               "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
                 "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
-        } else if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (Per year growth)") {
+        } else if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (per year growth)") {
           toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
             "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
               "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
