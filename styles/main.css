@@ -127,37 +127,29 @@ svg{
 .mainregLine {
   fill: none;
   stroke: #811078;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
   /*stroke-dasharray: 2;*/
-  stroke-opacity: .7;
+  /*stroke-opacity: .7;*/
 }
 .tempregLine {
   fill: none;
   stroke: #94D7FA;
-  stroke-width: 3px;
-  stroke-dasharray: 2;
+  stroke-width: 2px;
+  /*stroke-dasharray: 2;*/
   /*stroke-opacity: .7;*/
 }
 
 /*Brush Css*/
 .brushAxis--x .domain, .brushAxis--y .domain{
   stroke: black;
-  /*stroke-opacity: .5;*/
+  stroke-opacity: .5;
   stroke-width:1px;
 }
-/*.handle--e, .handle--w{
-  fill: black;
-  /*stroke:green;*/
-  /*width: 15px;*/
-  /*stroke-width: 0.5px;*/
-  stroke-opacity: 0.7;
-  fill-opacity: 0.2;
-  border-radius: 5px
-}*/
 
 .selection {
-  stroke-width: 0px;
-  stroke: none;
+  /*stroke-width: 1px;*/
+  /*stroke: none;*/
+  /*stroke: red;*/
 }
 .mainbrushLine{
   fill: none;
@@ -168,8 +160,8 @@ svg{
 .tempbrushLine{
   fill: none;
   stroke: #94D7FA;
-  stroke-width: 3px;
-  stroke-dasharray: 2;
+  stroke-width: 2px;
+  /*stroke-dasharray: 2;*/
 }
 
 
