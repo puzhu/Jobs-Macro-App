@@ -448,10 +448,11 @@ function draw(dataAll, allBrushData) {
       //implement a smooth transition to year domain
       d3.select(this)
           .transition()
-          .duration(100)
+          .duration(10)
+          .ease(d3.easeExpIn)
           .call(brush.move, yearDomainRange.map(xBrushScale))
 
-      handle.transition().duration(100).attr("display", null).attr("transform", function(d, i) { return "translate(" + yearDomainRange.map(xBrushScale)[i] + "," + brushHeight / 2 + ")"; })
+      handle.transition().duration(10).ease(d3.easeExpIn).attr("display", null).attr("transform", function(d, i) { return "translate(" + yearDomainRange.map(xBrushScale)[i] + "," + brushHeight / 2 + ")"; })
       //call the redraw function
       scatterHandler()
   }
