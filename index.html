@@ -13,114 +13,139 @@
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="row col-lg-12">
+  <div class="container">
+    <div class="row" id='lead-section'>
       <h2>Jobs Macro Data Dashboard</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
     </div>
-  </div>
-  <div class="container-fluid">
-    <div id="chartArea">
-      <div class="row">
-        <div class="col-lg-8">
-          <div class='row' id='scatterControls'>
-            <div class="col-lg-9">
-              <div class="row" id='brushTitle'>
-                <p class="lead">
-                  World GDP per capita
-                </p>
+    <div class="row" id="app-area">
+      <div class="row container-fluid" id='controls-area'>
+        <div class="col-lg-7 container-fluid" id="brush-container">
+          <div class="row chartTitle">
+            <p class="lead">
+              Select Years
+            </p>
+            <p class="lead helpText">
+              (Click and drag below to select years)
+            </p>
+          </div>
+          <div class="row text-center" id='brushDiv'></div>
+        </div>
+        <div class="col-lg-5 container-fluid text-center", id="controls-container">
+          <div class="row" id='controls-row-1'>
+            <div class="col-md-4 controlItem" id='control1 control'>
+              <p>
+              </p>
+            </div>
+            <div class="col-md-4 container-fluid controlItem" id='control2'>
+              <div class="row" id="control2-title">
                 <p class="lead helpText">
-                  (Click and drag below to select years)
+                  Select income group
                 </p>
               </div>
-
-              <div id='brushDiv'>
-
+              <div class="row" id='control2'>
+                <label class='appDropDown'>
+                  <select id="incomeDropdown">
+                    <option selected="selected">All Countries</option>
+                    <option>Low Income</option>
+                    <option>Lower Middle Income</option>
+                    <option>Upper Middle Income</option>
+                    <option>High Income</option>
+                  </select>
+                </label>
               </div>
             </div>
+            <div class="col-md-4 controlItem" id='control3'>
+              <p>
 
-            <div class="col-lg-3">
-              <div class="row">
-                <div class="row text-center" id='incomeClassTitle'>
-                  <p class="lead helpText">
-                    Select income group
-                  </p>
-                </div>
+              </p>
+            </div>
+          </div>
+          <div class="row" id='controls-row-2'>
+            <div class="col-md-4 controlItem" id='control4'>
+              <p>
 
-                <div class="row text-center">
-                  <label class='appDropDown'>
-                    <select id="incomeDropdown">
-                      <option selected="selected">All Countries</option>
-                      <option>Low Income</option>
-                      <option>Lower Middle Income</option>
-                      <option>Upper Middle Income</option>
-                      <option>High Income</option>
-                    </select>
-                </label>
-                </div>
-              </div>
-
-              <div class="row text-center">
-                <p class="lead helpText" id='outlierHeading'>
-                  Remove Outliers
+              </p>
+            </div>
+            <div class="col-md-4 container-fluid controlItem" id='control5'>
+              <div class="row" id="control2-title">
+                <p class="lead helpText">
+                  Include Outliers
                 </p>
+              </div>
+              <div class="row">
                 <label class="switch">
                   <input type="checkbox" id="outlierCheck">
                   <div class="slider round"></div>
                 </label>
               </div>
             </div>
-          </div>
+            <div class="col-md-4 controlItem" id='control6'>
+              <p>
 
-          <div class='row'>
-            <div class='row text-center' id='scatterTitle'>
-              <p class="lead">
-                Productivity vs. GDP Growth
-              </p>
-              <p class="lead helpText">
-                (Hover on dots to highlight individual countries)
               </p>
             </div>
-            <div class='row' id='scatterChart'>
-            </div>
           </div>
-
-
-          <div class='row text-center' id='xScatterTitle'>
+        </div>
+      </div>
+      <div class="row container-fluid" id='chart-area'>
+        <div class="col-lg-6 container-fluid" id='prodChart-container'>
+          <div class="row chartTitle">
+            <p class="lead">
+              <span id='prodChartXVar'></span> vs. GDP Growth
+            </p>
+            <p class="lead helpText">
+              (Hover on dots to highlight individual countries)
+            </p>
+          </div>
+          <div class="row text-center" id='prodChart'></div>
+          <div class="row text-center" id='prodChart-x-dropdown'>
             <label class='appDropDown'>
-              <select id="xScatterTitleDropDown">
+              <select id="xProdDropDown">
+                <option>Total Productivity (per year growth)</option>
                 <option>Agricultural Productivity (per year growth)</option>
                 <option>Industrial Productivity (per year growth)</option>
                 <option>Services Productivity (per year growth)</option>
               </select>
-          </label>
+            </label>
           </div>
-
         </div>
-        <div class="col-lg-4" id="scatterText">
-          <h2>Place Holder Title</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-        </div>
+        <div class="col-lg-6 container-fluid" id='empChart-container'>
+          <div class="row chartTitle">
+            <p class="lead">
+              <span id='empChartXVar'></span> vs. <span id='empChartYVar'></span>
+            </p>
+            <p class="lead helpText">
+              (Hover on dots to highlight individual countries)
+            </p>
+          </div>
+          <div class="row text-center" id='empChart'>
 
-      </div>
+          </div>
+          <div class="row text-center" id='empChart-x-dropdown'>
+            <label class='appDropDown'>
+              <select id="xEmpDropDown">
+                <option>Productivity (per year growth)</option>
+                <option>Gross Domestic Product (per year growth)</option>
+              </select>
+            </label>
+          </div>
+        </div>
     </div>
-
   </div>
 
-  <script src="https://npmcdn.com/simple-statistics@2.0.0-beta3/dist/simple-statistics.min.js"></script>
+
+
+
+
+
+  <!-- <script src="https://npmcdn.com/simple-statistics@2.0.0-beta3/dist/simple-statistics.min.js"></script> -->
+  <script src="libs/simple-statistics.min.js"></script>
   <script src="libs/jquery-2.2.4.min.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="libs/d3.min.js"></script>
   <script src="libs/d3-tool-tip.js"></script>
 	<script src="scripts/main.js"></script>
 </body>

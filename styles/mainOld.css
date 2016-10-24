@@ -1,0 +1,262 @@
+body {
+  padding : 5px ;
+}
+
+.helpText{
+  font-size: 12px;
+}
+.lead{
+  margin-bottom: 0;
+}
+/*Defining the chart areas*/
+#chartArea{
+  background-color: #C7C7C7;
+}
+#scatterControls{
+  margin-top: 10px;
+  height: 140px;
+}
+#brushDiv{
+  height: 90px;
+}
+#brushTitle {
+  margin-left: 80px;
+}
+
+#incomeClassDiv{
+  height: 90px;
+}
+
+#outlierHeading{
+  margin-top: 5px;
+}
+
+#scatterChart{
+  height: 360px;
+}
+#scatterTitle{
+  margin-top: 30px;
+  /*border: 1px dotted;*/
+}
+#xScatterTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+#scatterText{
+  height:470px;
+}
+
+svg{
+  font: 10px sans-serif;
+}
+
+
+
+
+
+/*Style the regression lines*/
+.mainregLine {
+  fill: none;
+  stroke: grey;
+  stroke-width: 2.5px;
+  stroke-dasharray: 3;
+}
+.tempregLine {
+  fill: none;
+  stroke: green;
+  stroke-width: 2px;
+  stroke-dasharray: 10;
+}
+
+/*Scatter Plot CSS*/
+.scatterCircles{
+  -webkit-transition: fill-opacity 250ms linear;
+  cursor: pointer;
+}
+.selected{
+  stroke: green;
+  stroke-width: 1.25;
+  opacity: 0.6
+}
+.default {
+  stroke: black;
+  stroke-width: 0.75;
+  opacity: .1;
+  fill: black;
+}
+.obsText{
+  font-size: 1.1em;
+}
+
+/*Tool Tip*/
+#popUp {
+  font-size: 11px;
+}
+
+.x--scatterAxis .domain, .y--scatterAxis .domain {
+  stroke: black;
+  stroke-opacity: .5;
+}
+
+/*Brush CSS*/
+ .tick line {
+  stroke: #fff;
+  stroke-opacity: .5;
+}
+.brushAxis--x .domain, .brushAxis--y .domain{
+  stroke: black;
+  stroke-opacity: .5;
+}
+.handle--e, .handle--w{
+  fill: black;
+  stroke:green;
+  fill-opacity: 0.5;
+  stroke-width:0.75px;
+}
+.selection {
+  stroke-width: 0px;
+  stroke: none;
+}
+.brushLine{
+  fill: none;
+  stroke: green;
+  stroke-width: 1.5px;
+  stroke-opacity: .5;
+}
+
+
+/*Toggle switch for outliers*/
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #EDEDED;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #C7C7C7;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #63AAC8;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #63AAC8;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+/*Dropdown CSS*/
+#incomeDropdown{
+  width: 200px;
+}
+#xScatterTitleDropDown{
+  width: 400px;
+}
+label.appDropDown select {
+	padding: 10px 42px 10px 10px;
+	background: #f8f8f8;
+	color: #444;
+	border: 1px solid #aaa;
+	border-radius: 0;
+	display: inline-block;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	outline: none;
+}
+label.appDropDown select:-moz-focusring {
+	color: transparent;
+	text-shadow: 0 0 0 #444;
+}
+label.appDropDown select::-ms-expand {
+	display: none;
+}
+label.appDropDown:before {
+	content: '';
+	right: 5px;
+	top: 2px;
+	width: 30px;
+	height: 33px;
+	background: #f8f8f8;
+	position: absolute;
+	pointer-events: none;
+	display: block;
+}
+label.appDropDown { position: relative; }
+label.appDropDown:after {
+	content: '>';
+	font: 24px;
+	color: #444;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	right: 0px;
+	top: 0px;
+	/*border-bottom: 3px solid #aaa;*/
+	position: absolute;
+	pointer-events: none;
+	width: 35px;
+	padding: 0 0 5px 0;
+	text-indent: 15px;
+}
+@media screen\0 {
+	label.appDropDown:after {
+		width: 38px;
+		text-indent: 15px;
+		right: 0;
+	}
+}
+@media screen and (min--moz-device-pixel-ratio:0) {
+	label.appDropDown select { padding-right: 40px; }
+	label.appDropDown:before { right: 6px; }
+	label.appDropDown:after {
+		text-indent: 14px;
+		right: 6px;
+		top: -5px;
+		width: 36px;
+	}
+}

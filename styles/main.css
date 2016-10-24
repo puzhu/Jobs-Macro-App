@@ -1,130 +1,256 @@
-body {
-  padding : 5px ;
-}
-
+/*General styles*/
 .helpText{
-  font-size: 12px;
+  font-size: 14px;
+  margin-top: -4px;
 }
 .lead{
   margin-bottom: 0;
 }
-/*Defining the chart areas*/
-#chartArea{
-  background-color: #C7C7C7;
-}
-#scatterControls{
-  margin-top: 10px;
-  height: 140px;
-}
-#brushDiv{
-  height: 90px;
-}
-#brushTitle {
-  margin-left: 80px;
+
+.chartTitle {
+  padding-left: 40px;
 }
 
-#incomeClassDiv{
-  height: 90px;
-}
-
-#outlierHeading{
+.controlItem {
   margin-top: 5px;
-}
-
-#scatterChart{
-  height: 360px;
-}
-#scatterTitle{
-  margin-top: 30px;
   /*border: 1px dotted;*/
 }
-#xScatterTitle {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
 
-#scatterText{
-  height:470px;
+body {
+  /*padding : 5px;*/
+  /*border: 1px dotted;*/
 }
-
 svg{
   font: 10px sans-serif;
 }
 
+/*Level one and two containers*/
+#lead-section {
+
+}
+#app-area {
 
 
+}
+ #controls-area {
+  /*background-color: #E9F2F8;*/
+ }
+ /*#C7C7C7#B3D3E7*/
+ #chart-area{
+  padding: 15px 5px 5px 5px;
+  background-color: #C7C7C7;
+  /*margin-top: 10px;*/
+ }
 
+/*All other level containers*/
+#brush-container {
+
+}
+
+#brushDiv{
+  height: 100px;
+}
+
+#controls-row-1 {
+
+}
+#controls-row-2 {
+  margin-top: 15px;
+
+}
+
+#prodChart-container {
+
+}
+
+#prodChart{
+  height: 300px;
+}
+#prodChart-x-dropdown{
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+#empChart-container {
+
+}
+
+#empChart{
+  height: 300px;
+}
+#empChart-x-dropdown{
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/*Common axis styling*/
+.x--scatterAxis .domain, .y--scatterAxis .domain {
+  stroke: black;
+  stroke-width:1px;
+  /*stroke-opacity: .5;*/
+}
+.tick line {
+ stroke: lightgrey;
+ /*stroke-opacity: .8;*/
+}
+.tick text {
+  /*fill: green;*/
+  font-size: 11px;
+}
+
+/*Scatter Plot CSS*/
+.dots{
+}
+.selected{
+  stroke: green;
+  stroke-width: 0.5;
+  stroke-opacity: .7;
+  fill-opacity: 0.6;
+  cursor: pointer;
+}
+.default {
+  cursor: pointer;
+  stroke: black;
+  stroke-width: 0.5;
+  stroke-opacity: .3;
+  fill-opacity: .1;
+  fill: black;
+}
+.obsText{
+  font-size: 12px;
+}
+.y--scatterTitle {
+  font-size: 11px;
+}
 
 /*Style the regression lines*/
 .mainregLine {
   fill: none;
-  stroke: grey;
-  stroke-width: 2.5px;
-  stroke-dasharray: 3;
+  stroke: #811078;
+  stroke-width: 1.5px;
+  /*stroke-dasharray: 2;*/
+  stroke-opacity: .7;
 }
 .tempregLine {
   fill: none;
-  stroke: green;
-  stroke-width: 2px;
-  stroke-dasharray: 10;
+  stroke: #94D7FA;
+  stroke-width: 3px;
+  stroke-dasharray: 2;
+  /*stroke-opacity: .7;*/
 }
 
-/*Scatter Plot CSS*/
-.scatterCircles{
-  -webkit-transition: fill-opacity 250ms linear;
-  cursor: pointer;
-}
-.selected{
-  stroke: green;
-  stroke-width: 1.25;
-  opacity: 0.6
-}
-.default {
-  stroke: black;
-  stroke-width: 0.75;
-  opacity: .1;
-  fill: black;
-}
-.obsText{
-  font-size: 1.1em;
-}
-
-/*Tool Tip*/
-#popUp {
-  font-size: 11px;
-}
-
-.x--scatterAxis .domain, .y--scatterAxis .domain {
-  stroke: black;
-  stroke-opacity: .5;
-}
-
-/*Brush CSS*/
- .tick line {
-  stroke: #fff;
-  stroke-opacity: .5;
-}
+/*Brush Css*/
 .brushAxis--x .domain, .brushAxis--y .domain{
   stroke: black;
-  stroke-opacity: .5;
+  /*stroke-opacity: .5;*/
+  stroke-width:1px;
 }
-.handle--e, .handle--w{
+/*.handle--e, .handle--w{
   fill: black;
-  stroke:green;
-  fill-opacity: 0.5;
-  stroke-width:0.75px;
-}
+  /*stroke:green;*/
+  /*width: 15px;*/
+  /*stroke-width: 0.5px;*/
+  stroke-opacity: 0.7;
+  fill-opacity: 0.2;
+  border-radius: 5px
+}*/
+
 .selection {
   stroke-width: 0px;
   stroke: none;
 }
-.brushLine{
+.mainbrushLine{
   fill: none;
-  stroke: green;
-  stroke-width: 1.5px;
+  stroke: #811078;
+  stroke-width: 2px;
   stroke-opacity: .5;
 }
+.tempbrushLine{
+  fill: none;
+  stroke: #94D7FA;
+  stroke-width: 3px;
+  stroke-dasharray: 2;
+}
 
+
+
+
+/*Dropdown CSS*/
+#incomeDropdown {
+  width: 145px;
+}
+#xProdDropDown {
+  width: 350px;
+}
+#xEmpDropDown {
+  width: 350px;
+}
+label.appDropDown select {
+	padding: 10px 42px 10px 10px;
+	background: #f8f8f8;
+	color: #444;
+	border: 1px solid #aaa;
+	border-radius: 0;
+	display: inline-block;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	outline: none;
+}
+label.appDropDown select:-moz-focusring {
+	color: transparent;
+	text-shadow: 0 0 0 #444;
+}
+label.appDropDown select::-ms-expand {
+	display: none;
+}
+label.appDropDown:before {
+	content: '';
+	right: 5px;
+	top: 2px;
+	width: 30px;
+	height: 33px;
+	background: #f8f8f8;
+	position: absolute;
+	pointer-events: none;
+	display: block;
+}
+label.appDropDown { position: relative; }
+label.appDropDown:after {
+	content: '>';
+	font: 40px;
+	color: #444;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	right: 0px;
+	top: 2px;
+	/*border-bottom: 3px solid #aaa;*/
+	position: absolute;
+	pointer-events: none;
+	width: 40px;
+	padding: 0 0 5px 0;
+	text-indent: 15px;
+}
+@media screen\0 {
+	label.appDropDown:after {
+		width: 38px;
+		text-indent: 15px;
+		right: 0;
+	}
+}
+@media screen and (min--moz-device-pixel-ratio:0) {
+	label.appDropDown select { padding-right: 40px; }
+	label.appDropDown:before { right: 6px; }
+	label.appDropDown:after {
+		text-indent: 14px;
+		right: 6px;
+		top: -5px;
+		width: 36px;
+	}
+}
 
 /*Toggle switch for outliers*/
 
@@ -184,79 +310,4 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
-}
-
-
-/*Dropdown CSS*/
-#incomeDropdown{
-  width: 200px;
-}
-#xScatterTitleDropDown{
-  width: 400px;
-}
-label.appDropDown select {
-	padding: 10px 42px 10px 10px;
-	background: #f8f8f8;
-	color: #444;
-	border: 1px solid #aaa;
-	border-radius: 0;
-	display: inline-block;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	cursor: pointer;
-	outline: none;
-}
-label.appDropDown select:-moz-focusring {
-	color: transparent;
-	text-shadow: 0 0 0 #444;
-}
-label.appDropDown select::-ms-expand {
-	display: none;
-}
-label.appDropDown:before {
-	content: '';
-	right: 5px;
-	top: 2px;
-	width: 30px;
-	height: 33px;
-	background: #f8f8f8;
-	position: absolute;
-	pointer-events: none;
-	display: block;
-}
-label.appDropDown { position: relative; }
-label.appDropDown:after {
-	content: '>';
-	font: 24px;
-	color: #444;
-	-webkit-transform: rotate(90deg);
-	-moz-transform: rotate(90deg);
-	-ms-transform: rotate(90deg);
-	transform: rotate(90deg);
-	right: 0px;
-	top: 0px;
-	/*border-bottom: 3px solid #aaa;*/
-	position: absolute;
-	pointer-events: none;
-	width: 35px;
-	padding: 0 0 5px 0;
-	text-indent: 15px;
-}
-@media screen\0 {
-	label.appDropDown:after {
-		width: 38px;
-		text-indent: 15px;
-		right: 0;
-	}
-}
-@media screen and (min--moz-device-pixel-ratio:0) {
-	label.appDropDown select { padding-right: 40px; }
-	label.appDropDown:before { right: 6px; }
-	label.appDropDown:after {
-		text-indent: 14px;
-		right: 6px;
-		top: -5px;
-		width: 36px;
-	}
 }
