@@ -84,7 +84,7 @@ function removeOutliers(data) {
 }
 
         //MAP CONTROLS TO DATA VARIABLES
-// Create global variables to map html inputs to data
+// Create global variables to map html inputs to data and to update titles
 var incomeClassKey = {
   'All Countries': "W",
   'Low Income': "L",
