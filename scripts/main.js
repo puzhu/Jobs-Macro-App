@@ -106,13 +106,13 @@ var yEmpVarKey = {
 }
 
 var prodTitleKey = {
-  "Total Productivity (per year growth)": "Tot. Productivity",
+  "Total Productivity (per year growth)": "Total Productivity",
   "Agricultural Productivity (per year growth)": "Ag. Productivity",
   "Industrial Productivity (per year growth)": "Ind. Productivity",
   "Services Productivity (per year growth)": "Serv. Productivity"
 }
 var empTitleKey = {
-  "Total Productivity (per year growth)": "Tot. Employment",
+  "Total Productivity (per year growth)": "Total Employment",
   "Agricultural Productivity (per year growth)": "Ag. Employment",
   "Industrial Productivity (per year growth)": "Ind. Employment",
   "Services Productivity (per year growth)": "Serv. Employment"
