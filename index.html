@@ -47,11 +47,11 @@
             <div class="col-md-4 container-fluid controlItem" id='control2'>
               <div class="row" id="control2-title">
                 <p class="lead helpText">
-                  Select income group
+                  Select country group
                 </p>
               </div>
               <div class="row" id='control2'>
-                <label class='appDropDown'>
+                <!-- <label class='appDropDown'>
                   <select id="incomeDropdown">
                     <option selected="selected">All Countries</option>
                     <option>Low Income</option>
@@ -59,7 +59,41 @@
                     <option>Upper Middle Income</option>
                     <option>High Income</option>
                   </select>
-                </label>
+                </label> -->
+                <div class="dropdown" id="countryClassDropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    All Countries
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" >
+                    <li class="defaultCountryClass">All Countries</li>
+                    <li class="dropdown-header">Income</li>
+                    <li class="incomeClass">Low Income</li>
+                    <li class="incomeClass">Lower Middle Income</li>
+                    <li class="incomeClass">Upper Middle Income</li>
+                    <li class="incomeClass">High Income</li>
+                    <li class="dropdown-header">Regions</li>
+                    <li class='region'>East Asia &amp; Pacific</li>
+                    <li class='region'>Europe &amp; Central Asia</li>
+                    <li class='region'>Latin America &amp; Caribbean</li>
+                    <li class='region'>Middle East &amp; North Africa</li>
+                    <li class='region'>North America</li>
+                    <li class='region'>Sub-Saharan Africa</li>
+                    <li class='region'>South Asia</li>
+                    <li class="dropdown-header">Aging</li>
+                    <li class='aging'>Aging</li>
+                    <li class='aging'>Not Aging</li>
+                    <li class="dropdown-header">Resource Rich</li>
+                    <li class='resourceRich'>Resource Rich</li>
+                    <li class='resourceRich'>Not Resource Rich</li>
+                    <li class="dropdown-header">Youth</li>
+                    <li class='youth'>Young</li>
+                    <li class='youth'>Not Young</li>
+                    <li class="dropdown-header">Conflict Prone</li>
+                    <li class='conflictProne'>Conflict Prone</li>
+                    <li class='conflictProne'>Not Conflict Prone</li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="col-md-4 controlItem" id='control3'>

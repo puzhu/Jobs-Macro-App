@@ -64,6 +64,11 @@ function calcVizAllGrData(data, startYear, endYear, xVar, yVar){
 		array.push({
 			country: d.country,
       year: d.year,
+      region: d.region,
+      conflictProne: d.conflictProne,
+      resourceRich: d.resourceRich,
+      aging: d.aging,
+      youth: d.youth,
 			incomeClass: d.incomeClass,
 			yVarRate: (d[yVar]),
 			xVarRate: (d[xVar])
@@ -85,13 +90,43 @@ function removeOutliers(data) {
 
         //MAP CONTROLS TO DATA VARIABLES
 // Create global variables to map html inputs to data and to update titles
-var incomeClassKey = {
-  'All Countries': "W",
-  'Low Income': "L",
-  'Lower Middle Income': 'LM',
-  'Upper Middle Income': 'UM',
-  'High Income': 'H'
+var countryClassMap = {
+  defaultCountryClass: {
+    'All Countries': "W"
+  },
+  incomeClass : {
+    'Low Income': "L",
+    'Lower Middle Income': 'LM',
+    'Upper Middle Income': 'UM',
+    'High Income': 'H'
+  },
+  region: {
+    'East Asia &amp; Pacific': 'East Asia & Pacific',
+    'Europe &amp; Central Asia': 'Europe & Central Asia',
+    'Latin America &amp; Caribbean': 'Latin America & Caribbean',
+    'Middle East &amp; North Africa': 'Middle East & North Africa',
+    'North America': 'North America',
+    'Sub-Saharan Africa': 'Sub-Saharan Africa',
+    'South Asia': 'South Asia'
+  },
+  resourceRich: {
+    'Resource Rich': 'Yes',
+    'Not Resource Rich': 'No'
+  },
+  aging: {
+    'Aging': 'Yes',
+    'Not Aging': 'No'
+  },
+  youth: {
+    'Young': 'Yes',
+    "Not Young": 'No'
+  },
+  conflictProne: {
+    'Conflict Prone': 'Yes',
+    'Not Conflict Prone': 'No'
+  }
 }
+
 var xProdVarKey = {
   "Total Productivity (per year growth)": "prodTot",
   "Agricultural Productivity (per year growth)": "prodAg",
@@ -140,6 +175,11 @@ function processScatterData(data) {
     var array = {
         country: data.country,
         year: deString(data.year),
+        region: data.region,
+        conflictProne: data.conflictProne,
+        resourceRich: data.resourceRich,
+        aging: data.aging,
+        youth: data.youth,
         incomeClass: data.incomeClass,
         gdp: deString(data.gdpGr),
         prodTot: deString(data.prodTotGr),
@@ -162,6 +202,16 @@ function processallBrushData(data) {
         gdpPc: deString(data.gdpPerCap)
     }
     return array
+}
+
+//process country countryClassification
+function processCountryClass(data) {
+  var array = {
+    country: data.country,
+    year: new Date(deString(data.year), 1, 1),
+    classification: data.type
+  }
+  return array;
 }
 
 
@@ -213,8 +263,10 @@ function draw(dataAll, allBrushData) {
   var currentEmpY = yEmpVarKey[selProdXVar.options[selProdXVar.selectedIndex].value];
 
   //Selected country grouping (update this when there is a change in the selection)
-  var selCountryGroup = document.getElementById('incomeDropdown');
-  var currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
+  var varType = "defaultCountryClass"
+  var currentCountryGroup = "W";
+
+  // incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
 
   //Create the datasets for charting
   var prodData = (calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY));
@@ -463,16 +515,29 @@ function draw(dataAll, allBrushData) {
   To-Dos: 1.
   #################################################
   */
-  d3.select('#incomeDropdown').on('change.line', function() {
+  $('#countryClassDropdown li').on('click', function(){
+    varType = this.classList[0];
     // update the values of control variables
-    selCountryGroup = document.getElementById('incomeDropdown');
-    currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
+    currentCountryGroup = countryClassMap[varType][this.innerHTML];
+    console.log(currentCountryGroup)
+    function dropdown(val) {
+      var y = document.getElementsByClassName('btn btn-default dropdown-toggle');
+      var aNode = y[0].innerHTML = val + ' <span class="caret"></span>'; // Append
+    }
+    dropdown(this.innerHTML)
     scatterHandler()
-
-    // Change the line on the brush
-    currBrushData = allBrushData.filter(function(d) {return d.countryGroup === currentCountryGroup || d.countryGroup === 'W'});
-    drawBrushLine(currBrushData, currentCountryGroup, brushSvg, xBrushScale, yBrushScale, brushHeight)
-  });
+  })
+  //
+  // d3.select('#countryClassDropdown').on('change.line', function() {
+  //   // update the values of control variables
+  //   selCountryGroup = document.getElementById('countryClassDropdown');
+  //   currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
+  //   scatterHandler()
+  //
+  //   // Change the line on the brush
+  //   currBrushData = allBrushData.filter(function(d) {return d.countryGroup === currentCountryGroup || d.countryGroup === 'W'});
+  //   drawBrushLine(currBrushData, currentCountryGroup, brushSvg, xBrushScale, yBrushScale, brushHeight)
+  // });
 
   /*
   #################################################
@@ -512,12 +577,14 @@ function draw(dataAll, allBrushData) {
       }
     } else {
       // Hide or show scatterCircles based on the start and end year of the brush
-      d3.selectAll('.dots').filter(function(d) { return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
-      d3.selectAll('.dots').filter(function(d) { return d.year <= yearDomainRange[0].getFullYear() || d.year > yearDomainRange[1].getFullYear() || d.incomeClass != currentCountryGroup} ).classed('selected', false).classed('default', true).moveToBack();
+      d3.selectAll('.dots').filter(function(d) { return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d[varType] === currentCountryGroup}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+      d3.selectAll('.dots').filter(function(d) { return d.year <= yearDomainRange[0].getFullYear() || d.year > yearDomainRange[1].getFullYear() || d[varType] !== currentCountryGroup} ).classed('selected', false).classed('default', true).moveToBack();
+
+
 
       // Draw a temparory regression line for each brush end event
-      tempProdData = prodData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
-      tempEmpData = empData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d.incomeClass === currentCountryGroup})
+      tempProdData = prodData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d[varType] === currentCountryGroup})
+      tempEmpData = empData.filter(function(d) {return d.year > yearDomainRange[0].getFullYear() && d.year <= yearDomainRange[1].getFullYear() && d[varType] === currentCountryGroup})
 
       drawRegressLine(tempProdData, 'temp', prodPlot, xProdScale, yProdScale, 'prod')
       drawRegressLine(tempEmpData, 'temp', empPlot, xEmpScale, yEmpScale, 'emp')
@@ -550,9 +617,9 @@ function draw(dataAll, allBrushData) {
               return yScale(d.yVarRate);
           })
           .attr('class', 'dots default ' + className )
-          .on('mouseover', mouseoverDots)
-          .on('mouseout', mouseoutDots)
-          .call(toolTip);
+          // .on('mouseover', mouseoverDots)
+          // .on('mouseout', mouseoutDots)
+          // .call(toolTip);
 
       //Draw titles
       var tempProdXVar = document.getElementById('xProdDropDown');
@@ -571,38 +638,36 @@ function draw(dataAll, allBrushData) {
         }
       }
 
-      function mouseoverDots(d){
-        d3.selectAll('.dots').filter(function(e) {return e.country === d.country}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
-        d3.selectAll('.dots').filter(function(e) {return e.country != d.country}).classed('selected', false).classed('default', true).moveToBack()
-        if(varType === 'prod'){
-          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
-            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
-              "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
-                "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
-        } else if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (per year growth)") {
-          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
-            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
-              "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
-                "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
-        } else {
-          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
-            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
-              "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
-                "<strong>GDP Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
-        }
+      // function mouseoverDots(d){
+      //   d3.selectAll('.dots').filter(function(e) {return e.country === d.country}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+      //   d3.selectAll('.dots').filter(function(e) {return e.country != d.country}).classed('selected', false).classed('default', true).moveToBack()
+      //   if(varType === 'prod'){
+      //     toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+      //       "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+      //         "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+      //           "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+      //   } else if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (per year growth)") {
+      //     toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+      //       "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+      //         "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+      //           "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+      //   } else {
+      //     toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+      //       "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+      //         "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+      //           "<strong>GDP Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+      //   }
+      //
+      //   toolTip.show(d)
+      // }
+      // // Mouseout function fo scatter plot
+      // function mouseoutDots(d){
+      //   scatterHandler()
+      //   toolTip.hide(d)
+      // }
 
-        toolTip.show(d)
-      }
-      // Mouseout function fo scatter plot
-      function mouseoutDots(d){
-        scatterHandler()
-        toolTip.hide(d)
-      }
       d3.selectAll('.tick').selectAll('text').moveToFront()
   }
-
-
-
 }
 
 
@@ -675,7 +740,6 @@ function nObs(data, plotVar, width, height, varType) {
   // create plot specific unique class
   var obsClass = varType + "obsText"
   // remove existing text for specified chart
-  // console.log(obsClass)
   d3.selectAll('.' + obsClass).remove()
 
   // Create first line

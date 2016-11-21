@@ -161,16 +161,17 @@ svg{
   fill: none;
   stroke: #94D7FA;
   stroke-width: 2px;
-  /*stroke-dasharray: 2;*/
 }
-
-
-
 
 /*Dropdown CSS*/
-#incomeDropdown {
-  width: 145px;
+#countryClassDropdown {
+  cursor: pointer;
+  /*background-color: #F8F8F8;*/
 }
+#countryClassDropdown li {
+  padding-left: 5px;
+}
+
 #xProdDropDown {
   width: 350px;
 }
