@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+
 <head>
 <title>Jobs Macro Visualization</title>
 
@@ -11,7 +13,6 @@
 
 
 </head>
-
 <body>
   <div class="container">
     <div class="row" id='lead-section'>
@@ -172,7 +173,16 @@
 
 
 
+  <script>
+    if (self == top) {
+        var theBody = document.getElementsByTagName('body')[0]
+        console.log(theBody)
+        theBody.style.display = "block"
+    } else {
+        top.location = self.location
+    }
 
+  </script>
 
   <!-- <script src="https://npmcdn.com/simple-statistics@2.0.0-beta3/dist/simple-statistics.min.js"></script> -->
   <script src="libs/simple-statistics.min.js"></script>
