@@ -1,4 +1,5 @@
 /*General styles*/
+
 .helpText{
   font-size: 14px;
   margin-top: -4px;
@@ -19,9 +20,10 @@
 body {
   /*padding : 5px;*/
   /*border: 1px dotted;*/
+  font: 'Open Sans', sans-serif;
 }
 svg{
-  font: 10px sans-serif;
+  font: 10px 'Open Sans', sans-serif;
 }
 
 /*Level one and two containers*/
