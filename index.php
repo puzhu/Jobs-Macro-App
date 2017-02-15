@@ -17,8 +17,8 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
 
 <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://raw.githubusercontent.com/puzhu/Jobs-Macro-App/master/styles/main.css">
-<link rel="stylesheet" href="https://raw.githubusercontent.com/puzhu/Jobs-Macro-App/master/styles/tool-tip-style.css">
+<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/tool-tip-style.css">
 
 
 </head>
