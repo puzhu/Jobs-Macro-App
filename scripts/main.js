@@ -500,11 +500,11 @@ function draw(dataAll, allBrushData) {
       //implement a smooth transition to year domain
       d3.select(this)
           .transition()
-          .duration(10)
+          .duration(5)
           .ease(d3.easeExpIn)
           .call(brush.move, yearDomainRange.map(xBrushScale))
 
-      handle.transition().duration(10).ease(d3.easeExpIn).attr("display", null).attr("transform", function(d, i) { return "translate(" + yearDomainRange.map(xBrushScale)[i] + "," + brushHeight / 2 + ")"; })
+      handle.transition().duration(5).ease(d3.easeExpIn).attr("display", null).attr("transform", function(d, i) { return "translate(" + yearDomainRange.map(xBrushScale)[i] + "," + brushHeight / 2 + ")"; })
       //call the redraw function
       scatterHandler()
   }
@@ -617,9 +617,9 @@ function draw(dataAll, allBrushData) {
               return yScale(d.yVarRate);
           })
           .attr('class', 'dots default ' + className )
-          // .on('mouseover', mouseoverDots)
-          // .on('mouseout', mouseoutDots)
-          // .call(toolTip);
+          .on('mouseover', mouseoverDots)
+          .on('mouseout', mouseoutDots)
+          .call(toolTip);
 
       //Draw titles
       var tempProdXVar = document.getElementById('xProdDropDown');
@@ -638,33 +638,33 @@ function draw(dataAll, allBrushData) {
         }
       }
 
-      // function mouseoverDots(d){
-      //   d3.selectAll('.dots').filter(function(e) {return e.country === d.country}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
-      //   d3.selectAll('.dots').filter(function(e) {return e.country != d.country}).classed('selected', false).classed('default', true).moveToBack()
-      //   if(varType === 'prod'){
-      //     toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
-      //       "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
-      //         "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
-      //           "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
-      //   } else if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (per year growth)") {
-      //     toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
-      //       "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
-      //         "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
-      //           "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
-      //   } else {
-      //     toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
-      //       "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
-      //         "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
-      //           "<strong>GDP Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
-      //   }
-      //
-      //   toolTip.show(d)
-      // }
-      // // Mouseout function fo scatter plot
-      // function mouseoutDots(d){
-      //   scatterHandler()
-      //   toolTip.hide(d)
-      // }
+      function mouseoverDots(d){
+        d3.selectAll('.dots').filter(function(e) {return e.country === d.country}).classed('default', false).classed('selected', true).attr('fill', fillColour).moveToFront()
+        d3.selectAll('.dots').filter(function(e) {return e.country != d.country}).classed('selected', false).classed('default', true).moveToBack()
+        if(varType === 'prod'){
+          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+              "<strong>GDP Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+                "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+        } else if(tempEmpYVar.options[tempEmpYVar.selectedIndex].value === "Productivity (per year growth)") {
+          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+              "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+                "<strong>Prod Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+        } else {
+          toolTip.html(function(d) {return "<strong>Country:</strong> <span style='color:silver'>" + d.country + "</span>" + "<br>" +
+            "<strong>Year:</strong> <span style='color:silver'>" + d.year + "</span>" + "<br>" +
+              "<strong>Emp. Growth:</strong> <span style='color:silver'>" + round(d.yVarRate, 1) + "</span>" + "<br>" +
+                "<strong>GDP Gr:</strong> <span style='color:silver'>" + round(d.xVarRate, 1)+ "</span>"})
+        }
+
+        toolTip.show(d)
+      }
+      // Mouseout function fo scatter plot
+      function mouseoutDots(d){
+        scatterHandler()
+        toolTip.hide(d)
+      }
 
       d3.selectAll('.tick').selectAll('text').moveToFront()
   }
