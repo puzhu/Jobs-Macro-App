@@ -114,7 +114,7 @@ svg{
   cursor: pointer;
   stroke: black;
   stroke-width: 0.5;
-  stroke-opacity: .3;
+  stroke-opacity: 0.3;
   fill-opacity: .1;
   fill: black;
 }

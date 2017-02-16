@@ -359,15 +359,16 @@ function draw(dataAll, allBrushData) {
             .endAngle(function(d, i) { return i ? Math.PI : -Math.PI; }))
         .attr("display", "none");
 
+  // Draw the default charts for employment
+  drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
+  drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
+  drawRegressLine(empData, 'main',empPlot, xEmpScale, yEmpScale, 'emp')
   // Draw the default charts for productivity
   drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
   drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
   drawRegressLine(prodData, 'main', prodPlot, xProdScale, yProdScale, 'prod')
 
-  // Draw the default charts for employment
-  drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
-  drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
-  drawRegressLine(empData, 'main',empPlot, xEmpScale, yEmpScale, 'emp')
+
 
   //Draw the brush line
   drawBrushLine(currBrushData, currentCountryGroup, brushSvg, xBrushScale, yBrushScale, brushHeight, 'main')
