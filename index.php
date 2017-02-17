@@ -1,6 +1,6 @@
 <?php
 // header('Location: /index.html');
-header('X-Frame-Options: SAMEORIGIN');
+// header('X-Frame-Options: SAMEORIGIN');
 header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
 header("Pragma: no-cache"); //HTTP 1.0
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
@@ -180,7 +180,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
   </div>
 
 
-  <script src="scripts/clickJack.js"></script>
+  <script src="scripts/preventCJ.js"></script>
   <!-- <script src="https://npmcdn.com/simple-statistics@2.0.0-beta3/dist/simple-statistics.min.js"></script> -->
   <script src="libs/simple-statistics.min.js"></script>
   <script src="libs/jquery-2.2.4.min.js"></script>
