@@ -243,6 +243,7 @@ function draw(dataAll, allBrushData) {
   var endYear = d3.max(dataAll, function(d) {
       return d.year;
   })
+
   var yearDomainRange = [new Date(startYear, 1, 1), new Date(endYear, 1, 1)] //updated through brush events
 
   //Selected x variable for productivity
@@ -327,9 +328,6 @@ function draw(dataAll, allBrushData) {
       ])
       .on("brush end", brushended);
 
-  function formatTwoDigitYear(d) { return d.substr(2,2); }
-  console.log(xBrushScale)
-
   // Draw the x axis for the brush (only drawn once)
   brushSvg.append("g")
       .attr("class", "brushAxis brushAxis--x")
@@ -340,7 +338,7 @@ function draw(dataAll, allBrushData) {
           .tickFormat(d3.timeFormat("%y")))
       .attr("text-anchor", null)
       .selectAll("text")
-      .attr("x", -22); //offset the tick labels to the left of the ticks
+      .attr("x", -10); //offset the tick labels to the left of the ticks
 
   //Call the brush on the svg (only called once)
   var gBrush = brushSvg.append("g")
