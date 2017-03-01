@@ -180,13 +180,13 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
   </div>
 
 
-  <script src="scripts/preventCJ.js"></script>
+  <!-- <script src="scripts/preventCJ.js"></script> -->
   <!-- <script src="https://npmcdn.com/simple-statistics@2.0.0-beta3/dist/simple-statistics.min.js"></script> -->
   <script src="libs/simple-statistics.min.js"></script>
   <script src="libs/jquery-2.2.4.min.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
   <script src="libs/d3.min.js"></script>
   <script src="libs/d3-tool-tip.js"></script>
-	<script src="scripts/main.js"></script>
+  <script src="scripts/main.js"></script>
 </body>
 </html>
