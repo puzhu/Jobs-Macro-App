@@ -24,17 +24,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
 </head>
 <body>
   <div class="container">
-    <div class="row" id='lead-section'>
-      <h2>Jobs Macro Data Dashboard</h2>
-      <p>
-        This dashboard shows the relationships between jobs, productivity and GDP (growth rates). Use the dropdowns on the x-axis of the scatter charts to change plotting variables. Please note that selection of sector specific productivity on the x-axis of the left-most chart also changes the y-axis of the chart on the right side (to reflect the current sector). The x-axis on the rightmost chart swaps between x-axis variable on the first chart and GDP growth rates. The best way to get familiarized with the dashboard is to start using. Keep an eye on the chart headings since they automatically update to give you the current plotting variables.
-      </p>
-      <p>
-        The controls on the top row are used to highlight specific parts of the scatter plots and show trendlines for those that can be compared with the default. The brush on the leftmost side is used to select year ranges. The selections can be unmade by clicking on a part of the brush that is not currently selected. The dropdown selects different country groupings based on income. Play around with these to see if relationships persist across country groups and time ranges. The include outliers button uses the entire dataset for the two plots (the default view ignores observations that are 2.5 St. Dev. above the mean for each variable). You can also highlight individual observations to highlight country specific data points on the two charts.
-      </p>
-
-
-    </div>
+    
     <div class="row" id="app-area">
       <div class="row container-fluid" id='controls-area'>
         <div class="col-lg-7 container-fluid" id="brush-container">
