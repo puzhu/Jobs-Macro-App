@@ -23,7 +23,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
 
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
 
     <div class="row" id="app-area">
       <div class="row container-fluid" id='controls-area'>
