@@ -725,14 +725,14 @@ function drawScatterAxis(data, plotVar, xScale, yScale, width, height, varType) 
   }
   plotVar.append("text")
         .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-        .attr("transform", "translate("+ 12 +","+(height/7)+")rotate(-90)")
+        .attr("transform", "translate("+ 12 +","+(height/5)+")rotate(-90)")
         .attr('dx', 2)
         .attr('class', 'y--scatterTitle ' + className)
         .text(yAxisText1);
 
   plotVar.append("text")
         .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-        .attr("transform", "translate("+ 12 +","+(height/7)+")rotate(-90)")
+        .attr("transform", "translate("+ 12 +","+(height/5)+")rotate(-90)")
         .attr('dy', 12)
         .attr('class', 'y--scatterTitle ' + className)
         .text(yAxisText2);
