@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<meta http-equiv="Cache-control" content="no-store">
+<!-- <meta http-equiv="Cache-control" content="no-store"> -->
 
 <head>
 <title>Jobs Macro Visualization</title>
