@@ -327,13 +327,17 @@ function draw(dataAll, allBrushData) {
       ])
       .on("brush end", brushended);
 
+  function formatTwoDigitYear(d) { return d.substr(2,2); }
+  console.log(xBrushScale)
+
   // Draw the x axis for the brush (only drawn once)
   brushSvg.append("g")
       .attr("class", "brushAxis brushAxis--x")
       .attr("transform", "translate(0," + brushHeight + ")")
       .call(d3.axisBottom(xBrushScale)
           .ticks(d3.timeYear)
-          .tickPadding(2))
+          .tickPadding(2)
+          .tickFormat(d3.timeFormat("%y")))
       .attr("text-anchor", null)
       .selectAll("text")
       .attr("x", -22); //offset the tick labels to the left of the ticks
@@ -342,6 +346,7 @@ function draw(dataAll, allBrushData) {
   var gBrush = brushSvg.append("g")
       .attr("class", "brush")
       .call(brush)
+
   // Draw the brush handle
   var handle = gBrush.selectAll(".handle--custom")
       .data([{type: "w"}, {type: "e"}])
