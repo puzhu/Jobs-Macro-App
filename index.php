@@ -127,7 +127,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
         <div class="col-sm-6 container-fluid" id='prodChart-container'>
           <div class="row chartTitle">
             <p class="lead">
-              <span id='prodChartXVar'></span> vs. GDP (growth rates)
+              <span id='prodChartXVar'></span> vs. GDP
             </p>
             <p class="lead helpText">
               (Hover on dots to highlight individual countries)
@@ -148,7 +148,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
         <div class="col-sm-6 container-fluid" id='empChart-container'>
           <div class="row chartTitle">
             <p class="lead">
-              <span id='empChartXVar'></span> vs. <span id='empChartYVar'></span> (growth rates)
+              <span id='empChartXVar'></span> vs. <span id='empChartYVar'></span>
             </p>
             <p class="lead helpText">
               (Hover on dots to highlight individual countries)
