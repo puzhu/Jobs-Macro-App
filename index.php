@@ -24,10 +24,10 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
 </head>
 <body>
   <div class="container">
-    
+
     <div class="row" id="app-area">
       <div class="row container-fluid" id='controls-area'>
-        <div class="col-lg-7 container-fluid" id="brush-container">
+        <div class="col-sm-7 container-fluid" id="brush-container">
           <div class="row chartTitle">
             <p class="lead">
               Select Years
@@ -38,13 +38,13 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
           </div>
           <div class="row text-center" id='brushDiv'></div>
         </div>
-        <div class="col-lg-5 container-fluid text-center", id="controls-container">
+        <div class="col-sm-5 container-fluid text-center", id="controls-container">
           <div class="row" id='controls-row-1'>
-            <div class="col-md-4 controlItem" id='control1 control'>
+            <div class="col-xs-4 controlItem" id='control1 control'>
               <p>
               </p>
             </div>
-            <div class="col-md-4 container-fluid controlItem" id='control2'>
+            <div class="col-xs-4 container-fluid controlItem" id='control2'>
               <div class="row" id="control2-title">
                 <p class="lead helpText">
                   Select country group
@@ -90,19 +90,19 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
                 </div>
               </div>
             </div>
-            <div class="col-md-4 controlItem" id='control3'>
+            <div class="col-xs-4 controlItem" id='control3'>
               <p>
 
               </p>
             </div>
           </div>
           <div class="row" id='controls-row-2'>
-            <div class="col-md-4 controlItem" id='control4'>
+            <div class="col-xs-4 controlItem" id='control4'>
               <p>
 
               </p>
             </div>
-            <div class="col-md-4 container-fluid controlItem" id='control5'>
+            <div class="col-xs-4 container-fluid controlItem" id='control5'>
               <div class="row" id="control2-title">
                 <p class="lead helpText">
                   Include Outliers
@@ -115,7 +115,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
                 </label>
               </div>
             </div>
-            <div class="col-md-4 controlItem" id='control6'>
+            <div class="col-xs-4 controlItem" id='control6'>
               <p>
 
               </p>
@@ -124,7 +124,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
         </div>
       </div>
       <div class="row container-fluid" id='chart-area'>
-        <div class="col-lg-6 container-fluid" id='prodChart-container'>
+        <div class="col-sm-6 container-fluid" id='prodChart-container'>
           <div class="row chartTitle">
             <p class="lead">
               <span id='prodChartXVar'></span> vs. GDP (growth rates)
@@ -145,7 +145,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
             </label>
           </div>
         </div>
-        <div class="col-lg-6 container-fluid" id='empChart-container'>
+        <div class="col-sm-6 container-fluid" id='empChart-container'>
           <div class="row chartTitle">
             <p class="lead">
               <span id='empChartXVar'></span> vs. <span id='empChartYVar'></span> (growth rates)
