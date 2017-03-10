@@ -166,7 +166,7 @@ header('X-Content-Type-Options: nosniff'); //Prevent MIME types security risk
           </div>
         </div>
     </div>
-    <div class="row text-right bottomText">
+    <div class="row container-fluid text-right bottomText">
       <p><i class="fa fa-envelope-o fa-1x"></i> Developed by <a href="mailto:hari.subhash@gmail.com" target="_blank">Hari Subhash</a></p>
     </div>
   </div>
