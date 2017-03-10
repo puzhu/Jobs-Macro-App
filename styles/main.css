@@ -1,5 +1,8 @@
 /*General styles*/
-
+body {
+  overflow-x: hidden;
+  font: 'Open Sans', sans-serif;
+}
 .helpText{
   font-size: 14px;
   margin-top: -4px;
@@ -17,11 +20,6 @@
   /*border: 1px dotted;*/
 }
 
-body {
-  /*padding : 5px;*/
-  /*border: 1px dotted;*/
-  font: 'Open Sans', sans-serif;
-}
 svg{
   font: 10px 'Open Sans', sans-serif;
 }
