@@ -43,7 +43,12 @@ svg{
   background-color: #C7C7C7;
   /*margin-top: 10px;*/
  }
-
+ .bottomText {
+     font-size: 11px;
+ }
+ .bottomText p{
+   margin: 0 !important;
+ }
 /*All other level containers*/
 #brush-container {
 
@@ -66,11 +71,11 @@ svg{
 }
 
 #prodChart{
-  height: 250px;
+  height: 235px;
 }
 #prodChart-x-dropdown{
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin-top: 2px;
+  margin-bottom: 0px;
 }
 
 #empChart-container {
@@ -78,11 +83,11 @@ svg{
 }
 
 #empChart{
-  height: 250px;
+  height: 235px;
 }
 #empChart-x-dropdown{
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin-top: 2px;
+  margin-bottom: 0px;
 }
 
 /*Common axis styling*/
@@ -175,13 +180,13 @@ svg{
 }
 
 #xProdDropDown {
-  width: 350px;
+  width: 320px;
 }
 #xEmpDropDown {
-  width: 350px;
+  width: 320px;
 }
 label.appDropDown select {
-	padding: 10px 42px 10px 10px;
+	padding: 5px 20px 5px 5px;
 	background: #f8f8f8;
 	color: #444;
 	border: 1px solid #aaa;
@@ -200,34 +205,34 @@ label.appDropDown select:-moz-focusring {
 label.appDropDown select::-ms-expand {
 	display: none;
 }
-label.appDropDown:before {
+/*label.appDropDown:before {
 	content: '';
 	right: 5px;
 	top: 2px;
 	width: 30px;
-	height: 33px;
+	height: 20px;
 	background: #f8f8f8;
 	position: absolute;
 	pointer-events: none;
 	display: block;
-}
+}*/
 label.appDropDown { position: relative; }
 label.appDropDown:after {
 	content: '>';
-	font: 40px;
+	font: 20px;
 	color: #444;
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
 	-ms-transform: rotate(90deg);
 	transform: rotate(90deg);
 	right: 0px;
-	top: 2px;
+	top: 0px;
 	/*border-bottom: 3px solid #aaa;*/
 	position: absolute;
 	pointer-events: none;
-	width: 40px;
+	width: 30px;
 	padding: 0 0 5px 0;
-	text-indent: 15px;
+	text-indent: 5px;
 }
 @media screen\0 {
 	label.appDropDown:after {
@@ -238,7 +243,7 @@ label.appDropDown:after {
 }
 @media screen and (min--moz-device-pixel-ratio:0) {
 	label.appDropDown select { padding-right: 40px; }
-	label.appDropDown:before { right: 6px; }
+	/*label.appDropDown:before { right: 6px; }*/
 	label.appDropDown:after {
 		text-indent: 14px;
 		right: 6px;
