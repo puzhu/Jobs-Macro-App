@@ -48,6 +48,7 @@ svg{
  }
  .bottomText {
      font-size: 9px;
+     padding-right: 0px !important;
  }
  .bottomText p{
    margin: 0 !important;
@@ -74,7 +75,7 @@ svg{
 }
 
 #prodChart{
-  height: 240px;
+  height: 245px;
 }
 #prodChart-x-dropdown{
   margin-top: 2px;
@@ -86,7 +87,7 @@ svg{
 }
 
 #empChart{
-  height: 240px;
+  height: 245px;
 }
 #empChart-x-dropdown{
   margin-top: 2px;
