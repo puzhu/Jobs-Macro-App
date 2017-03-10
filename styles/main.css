@@ -1,7 +1,9 @@
 /*General styles*/
 body {
-  overflow-x: hidden;
   font: 'Open Sans', sans-serif;
+}
+.container {
+  padding: 0px;
 }
 .helpText{
   font-size: 14px;
