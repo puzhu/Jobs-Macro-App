@@ -559,7 +559,7 @@ function draw(dataAll, allBrushData) {
       if(startYear === yearDomainRange[0].getFullYear() && endYear === yearDomainRange[1].getFullYear()) { //no inputs; draw default
         // set to default view
         d3.selectAll('.tempregLine').remove() //remove the previous temp line
-        d3.selectAll('.dots').classed('selected', false).classed('default', true);
+        d3.selectAll('.dots').classed('selected', false).('default', true);
 
         // update number of obsText
         nObs(prodData, prodPlot, prodWidth, prodHeight, 'prod')
