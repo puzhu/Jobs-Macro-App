@@ -20,32 +20,48 @@ body {
   padding-left: 40px;
 }
 
-.controlItem {
-  margin-top: 5px;
-  /*border: 1px dotted;*/
-}
+
 
 svg{
   font: 10px 'Open Sans', sans-serif;
 }
-
+/*#prodChartSVG{
+  border: 10px solid red;
+}*/
 /*Level one and two containers*/
-#lead-section {
 
-}
-#app-area {
-
-
-}
- #controls-area {
-  /*background-color: #E9F2F8;*/
+ #controlGroup1{
+   margin-top: 5px;
  }
+ #controlGroup2{
+   margin-top: 5px;
+ }
+ #saveChart{
+   margin-top: 15px;
+ }
+ #control3{
+   margin-top: 15px;
+ }
+ #switchDiv{
+   margin-top:5px;
+ }
+
+
  /*#C7C7C7#B3D3E7*/
  #chart-area{
   padding: 15px 5px 5px 5px;
   background-color: #C7C7C7;
   /*margin-top: 10px;*/
  }
+
+
+ #countryList,span.select2, .select2-selection, .select2-selection__rendered{
+   height: 34px !important;
+ }
+ .select2-selection__rendered{
+   margin-top: 2px;
+ }
+
  .bottomText {
      font-size: 9px;
      padding-right: 0px !important;
@@ -54,25 +70,12 @@ svg{
    margin: 0 !important;
  }
 /*All other level containers*/
-#brush-container {
-
-}
 
 #brushDiv{
   height: 100px;
 }
 
-#controls-row-1 {
 
-}
-#controls-row-2 {
-  margin-top: 15px;
-
-}
-
-#prodChart-container {
-
-}
 
 #prodChart{
   height: 270px;
@@ -82,9 +85,6 @@ svg{
   margin-bottom: 0px;
 }
 
-#empChart-container {
-
-}
 
 #empChart{
   height: 270px;
@@ -110,8 +110,7 @@ svg{
 }
 
 /*Scatter Plot CSS*/
-.dots{
-}
+
 .selected{
   stroke: green;
   stroke-width: 0.5;
@@ -157,11 +156,6 @@ svg{
   stroke-width:1px;
 }
 
-.selection {
-  /*stroke-width: 1px;*/
-  /*stroke: none;*/
-  /*stroke: red;*/
-}
 .mainbrushLine{
   fill: none;
   stroke: #811078;

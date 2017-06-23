@@ -171,6 +171,30 @@ d3.selection.prototype.moveToBack = function() {
 
         // DATA PROCESSING FUNCTIONS FOR INITIAL LOAD
 // process the country gdp and productivity csv
+
+function generateDropDown(empData, prodData) {
+
+	//generate the unique list of values.
+  var empListVals = empData.map(function(d) { return d.country; })
+  var prodListVals = prodData.map(function(d) { return d.country; })
+  var listVals = unique(empListVals.concat(prodListVals)).sort()
+
+  // var listVals = unique(data.map(function(d) { return d.country; })).sort()
+  var listData = [{id: "None", text: "None"}];
+
+  listVals.forEach(function(d) {
+    listData.push({
+      id: d,
+      text: d
+    })
+  })
+
+  $("#countryList").select2({
+    data: listData
+  })
+  $("#countryList").select2('val', "None");
+}
+
 function processScatterData(data) {
     var array = {
         country: data.country,
@@ -231,6 +255,7 @@ function ready(error, dataAll, allBrushData) {
 }
 
 function draw(dataAll, allBrushData) {
+
   /*
   #################################################
   SECTION 3: GET THE DATA READY
@@ -273,7 +298,7 @@ function draw(dataAll, allBrushData) {
   var prodData = (calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY));
   var empData = (calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
   var currBrushData = allBrushData.filter(function(d) {return d.countryGroup === currentCountryGroup;});
-
+  generateDropDown(empData, prodData)
   /*
   #################################################
   SECTION 3.1: SETTING UP THE GLOBAL VARIABLES AND DRAWING AREAS
@@ -289,6 +314,8 @@ function draw(dataAll, allBrushData) {
       xProdScale = prodChartVars.xScale,
       yProdScale = prodChartVars.yScale;
 
+  prodChartVars.plotVar.attr("id", "prodChartSVG")
+
         //EMPLOYMENT CHART
   //Creating the svg
   var empChartVars = createSVG('#empChart', margin = {top: 5, right: 5, bottom: 0, left: 40}, padding = {top: 5, right: 2, bottom: 2, left: 15}),
@@ -297,6 +324,8 @@ function draw(dataAll, allBrushData) {
       empPlot = empChartVars.plotVar,
       xEmpScale = empChartVars.xScale,
       yEmpScale = empChartVars.yScale;
+
+  empChartVars.plotVar.attr("id", "empChartSVG")
 
   // Creating the tool tip for both the scatter plots
   var toolTip = d3.tip()
@@ -311,6 +340,7 @@ function draw(dataAll, allBrushData) {
       brushWidth = brushVars.width,
       brushHeight = brushVars.height,
       brushSvg = brushVars.plotVar;
+  brushVars.plotVar.attr("id", "brushSVG")
 
   //Create the X and Y scales
   var xBrushScale = d3.scaleTime()
@@ -396,6 +426,8 @@ function draw(dataAll, allBrushData) {
     // update the data based on the new employment data
     empData = (calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
 
+    generateDropDown(empData, prodData)
+
     //Redraw existing productivity plot elements
     drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
     drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
@@ -421,6 +453,12 @@ function draw(dataAll, allBrushData) {
     // update the data based on the new x variable
     empData = (calcVizAllGrData(dataAll, startYear, endYear, currentEmpX, currentEmpY));
 
+    generateDropDown(empData, prodData)
+    //Redraw existing productivity plot elements
+    drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
+    drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
+    drawRegressLine(prodData, 'main', prodPlot, xProdScale, yProdScale, 'prod')
+
     //Remove existing plot elements
     drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
     drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
@@ -431,6 +469,7 @@ function draw(dataAll, allBrushData) {
     // d3.select('.brush').call(brush.move, null)
   })
 
+
   /*
   #################################################
   SECTION 3.4: EVENT HANDLER FOR THE OUTLIERS SWITCH
@@ -439,6 +478,7 @@ function draw(dataAll, allBrushData) {
   */
 
   d3.select('#outlierCheck').on('change', function(){
+    generateDropDown(empData, prodData)
     if($('input[type="checkbox"]').prop('checked')) { //checkbox is checked then redraw
       // update the two data sets
       prodData = calcVizAllGrData(dataAll, startYear, endYear, currentProdX, currentProdY);
@@ -483,6 +523,7 @@ function draw(dataAll, allBrushData) {
   #################################################
   */
   function brushended() {
+    // generateDropDown(empData, prodData)
       if (!d3.event.sourceEvent) return; // Only transition after input.
 
       // Keep default styling if selection is empty i.e no brush
@@ -511,6 +552,8 @@ function draw(dataAll, allBrushData) {
       handle.transition().duration(5).ease(d3.easeExpIn).attr("display", null).attr("transform", function(d, i) { return "translate(" + yearDomainRange.map(xBrushScale)[i] + "," + brushHeight / 2 + ")"; })
       //call the redraw function
       scatterHandler()
+
+      // generateDropDown(empData, prodData)
   }
 
   /*
@@ -523,7 +566,7 @@ function draw(dataAll, allBrushData) {
     varType = this.classList[0];
     // update the values of control variables
     currentCountryGroup = countryClassMap[varType][this.innerHTML];
-    console.log(currentCountryGroup)
+
     function dropdown(val) {
       var y = document.getElementsByClassName('btn btn-default dropdown-toggle');
       var aNode = y[0].innerHTML = val + ' <span class="caret"></span>'; // Append
@@ -531,17 +574,37 @@ function draw(dataAll, allBrushData) {
     dropdown(this.innerHTML)
     scatterHandler()
   })
-  //
-  // d3.select('#countryClassDropdown').on('change.line', function() {
-  //   // update the values of control variables
-  //   selCountryGroup = document.getElementById('countryClassDropdown');
-  //   currentCountryGroup = incomeClassKey[selCountryGroup.options[selCountryGroup.selectedIndex].value];
-  //   scatterHandler()
-  //
-  //   // Change the line on the brush
-  //   currBrushData = allBrushData.filter(function(d) {return d.countryGroup === currentCountryGroup || d.countryGroup === 'W'});
-  //   drawBrushLine(currBrushData, currentCountryGroup, brushSvg, xBrushScale, yBrushScale, brushHeight)
-  // });
+
+  $("#countryList").on('change', function(d) {
+    var tempCountry = this.value;
+
+    //Redraw existing productivity plot elements
+    drawScatterAxis(prodData, prodPlot, xProdScale, yProdScale, prodWidth, prodHeight, 'prod')
+    drawScatterPlot(prodData, prodPlot, xProdScale, yProdScale, toolTip, 'prod')
+    drawRegressLine(prodData, 'main', prodPlot, xProdScale, yProdScale, 'prod')
+
+    //Redraw existing employment plot elements
+    drawScatterAxis(empData, empPlot, xEmpScale, yEmpScale, empWidth, empHeight, 'emp')
+    drawScatterPlot(empData, empPlot, xEmpScale, yEmpScale, toolTip, 'emp')
+    drawRegressLine(empData, 'main', empPlot, xEmpScale, yEmpScale, 'emp')
+
+    // Reflect existing inputs on new data
+    scatterHandler()
+    if(tempCountry != "None"){
+      // d3.selectAll(".dots").filter(function(e) {return e.country != tempCountry; }).style("fill-opacity", 0.1).moveToBack()
+      d3.selectAll(".dots").filter(function(e) {return e.country === tempCountry; }).style("fill", "red").style("fill-opacity", 0.9).moveToFront()
+    }
+
+
+    // console.log(test)
+  })
+
+  d3.select("#saveChartsButton").on("click", function(){
+    // saveSvgAsPng(document.getElementById("brushSVG"), "brush.png", {left : -30})
+    saveSvgAsPng(document.getElementById("prodChartSVG"), "prodChart.png", {left : -15})
+    saveSvgAsPng(document.getElementById("empChartSVG"), "empChart.png", {left : -15})
+
+  });
 
   /*
   #################################################
@@ -606,6 +669,7 @@ function draw(dataAll, allBrushData) {
   #################################################
   */
   function drawScatterPlot(data, plotVar, xScale, yScale, toolTip, varType) {
+
       var className = varType + 'Dots'
       //Remove existing elements
       d3.selectAll('.' + className).remove()
@@ -705,6 +769,7 @@ function drawScatterAxis(data, plotVar, xScale, yScale, width, height, varType) 
   plotVar.append('g')
       .call(yAxis)
       .attr('class', 'y--scatterAxis '+ className)
+      .moveToFront()
 
   plotVar.append('g')
       .call(xAxis)
@@ -754,7 +819,7 @@ function nObs(data, plotVar, width, height, varType) {
   // Append the text to the plot
   plotVar.append('g')
         .append('text')
-        .attr('x', width - 80)
+        .attr('x', width - 100)
         .attr('y', height - 0)
         .attr('dy', -2)
         .text(nObsText)
@@ -763,7 +828,7 @@ function nObs(data, plotVar, width, height, varType) {
 
   plotVar.append('g')
         .append('text')
-        .attr('x', width - 80)
+        .attr('x', width - 100)
         .attr('y', height - 0)
         .attr('dy', -14)
         .text(uniqueText)

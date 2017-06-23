@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="styles/main.css">
 <link rel="stylesheet" href="styles/tool-tip-style.css">
+<script src="libs/jquery-2.2.4.min.js"></script>
+<link href="libs/select2-4.0.3/dist/css/select2.min.css" rel="stylesheet" />
+<script src="libs/select2-4.0.3/dist/js/select2.min.js"></script>
 
 
 </head>
@@ -39,87 +42,76 @@
           </div>
           <div class="row text-center" id='brushDiv'></div>
         </div>
-        <div class="col-sm-5 container-fluid text-center", id="controls-container">
-          <div class="row" id='controls-row-1'>
-            <div class="col-xs-4 controlItem" id='control1 control'>
-              <p>
-              </p>
-            </div>
-            <div class="col-xs-4 container-fluid controlItem" id='control2'>
-              <div class="row" id="control2-title">
-                <p class="lead helpText">
-                  Select country group
-                </p>
+
+        <div class="col-sm-5 text-center" id="controls-container">
+          <div class="col-sm-5 col-sm-offset-1" id="controlGroup1">
+            <div class="row" id="control1">
+              <div class="row" id="control1-title"><p class="lead helpText">Pick a Country</p></div>
+              <div class="row">
+                <select id="countryList" style="width: 75%">
+                  <option value="None" selected="selected">None</option>
+                </select>
               </div>
-              <div class="row" id='control2'>
-                <!-- <label class='appDropDown'>
-                  <select id="incomeDropdown">
-                    <option selected="selected">All Countries</option>
-                    <option>Low Income</option>
-                    <option>Lower Middle Income</option>
-                    <option>Upper Middle Income</option>
-                    <option>High Income</option>
-                  </select>
-                </label> -->
-                <div class="dropdown" id="countryClassDropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    All Countries
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" >
-                    <li class="defaultCountryClass">All Countries</li>
-                    <li class="dropdown-header">Income</li>
-                    <li class="incomeClass">Low Income</li>
-                    <li class="incomeClass">Lower Middle Income</li>
-                    <li class="incomeClass">Upper Middle Income</li>
-                    <li class="incomeClass">High Income</li>
-                    <li class="dropdown-header">Regions</li>
-                    <li class='region'>East Asia &amp; Pacific</li>
-                    <li class='region'>Europe &amp; Central Asia</li>
-                    <li class='region'>Latin America &amp; Caribbean</li>
-                    <li class='region'>Middle East &amp; North Africa</li>
-                    <li class='region'>North America</li>
-                    <li class='region'>Sub-Saharan Africa</li>
-                    <li class='region'>South Asia</li>
-                    <li class="dropdown-header">Resource Rich</li>
-                    <li class='resourceRich'>Resource Rich</li>
-                    <li class='resourceRich'>Not Resource Rich</li>
-                    <li class="dropdown-header">Youth</li>
-                    <li class='youth'>Young</li>
-                    <li class='youth'>Not Young</li>
-                  </ul>
+            </div>
+            <div class="row" id="saveChart">
+              <div class="row" id="saveChart-title"><p class="lead helpText">Download Charts</p></div>
+              <button class="btn btn-sm btn-default" id="saveChartsButton" style="width: 90%"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i>   Charts</button>
+            </div>
+          </div>
+          <div class="col-sm-5 col-sm-offset-1" id="controlGroup2">
+            <div class="row">
+              <div class="container-fluid " id='control2'>
+                <div class="row" id="control2-title">
+                  <p class="lead helpText">
+                    Select country group
+                  </p>
+                </div>
+                <div class="row" id='control2'>
+                  <div class="dropdown " id="countryClassDropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width: 90%">
+                      All Countries
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" >
+                      <li class="defaultCountryClass">All Countries</li>
+                      <li class="dropdown-header">Income</li>
+                      <li class="incomeClass">Low Income</li>
+                      <li class="incomeClass">Lower Middle Income</li>
+                      <li class="incomeClass">Upper Middle Income</li>
+                      <li class="incomeClass">High Income</li>
+                      <li class="dropdown-header">Regions</li>
+                      <li class='region'>East Asia &amp; Pacific</li>
+                      <li class='region'>Europe &amp; Central Asia</li>
+                      <li class='region'>Latin America &amp; Caribbean</li>
+                      <li class='region'>Middle East &amp; North Africa</li>
+                      <li class='region'>North America</li>
+                      <li class='region'>Sub-Saharan Africa</li>
+                      <li class='region'>South Asia</li>
+                      <li class="dropdown-header">Resource Rich</li>
+                      <li class='resourceRich'>Resource Rich</li>
+                      <li class='resourceRich'>Not Resource Rich</li>
+                      <li class="dropdown-header">Youth</li>
+                      <li class='youth'>Young</li>
+                      <li class='youth'>Not Young</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-xs-4 controlItem" id='control3'>
-              <p>
-
-              </p>
-            </div>
-          </div>
-          <div class="row" id='controls-row-2'>
-            <div class="col-xs-4 controlItem" id='control4'>
-              <p>
-
-              </p>
-            </div>
-            <div class="col-xs-4 container-fluid controlItem" id='control5'>
-              <div class="row" id="control2-title">
-                <p class="lead helpText">
-                  Include Outliers
-                </p>
+            <div class="row">
+              <div class="container-fluid " id='control3'>
+                <div class="row" id="control3-title">
+                  <p class="lead helpText">
+                    Include Outliers
+                  </p>
+                </div>
+                <div class="row" id="switchDiv">
+                  <label class="switch">
+                    <input type="checkbox" id="outlierCheck">
+                    <div class="slider round"></div>
+                  </label>
+                </div>
               </div>
-              <div class="row">
-                <label class="switch">
-                  <input type="checkbox" id="outlierCheck">
-                  <div class="slider round"></div>
-                </label>
-              </div>
-            </div>
-            <div class="col-xs-4 controlItem" id='control6'>
-              <p>
-
-              </p>
             </div>
           </div>
         </div>
@@ -177,8 +169,8 @@
   <!-- <script src="scripts/preventCJ.js"></script> -->
   <!-- <script src="https://npmcdn.com/simple-statistics@2.0.0-beta3/dist/simple-statistics.min.js"></script> -->
   <script src="libs/simple-statistics.min.js"></script>
-  <script src="libs/jquery-2.2.4.min.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+  <script src="libs/saveSvgAsPng/saveSvgAsPng.js"></script>
   <script src="libs/d3.min.js"></script>
   <script src="libs/d3-tool-tip.js"></script>
 	<script src="scripts/main.js"></script>
